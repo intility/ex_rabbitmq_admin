@@ -1,26 +1,7 @@
 defmodule ExRabbitMQAdminTest.Client do
-  # https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.2/deps/rabbitmq_management/priv/www/api/index.html
-  use ExUnit.Case, async: true
-
-  import Tesla.Mock
-  alias ExRabbitMQAdmin.Client
+  use ExRabbitMQAdmin.TestCase, async: true
 
   setup do
-    Application.put_env(:ex_rabbitmqadmin, ExRabbitMQAdmin.Client,
-      base_url: "https://rabbitmq.example.com:5672",
-      username: "guest",
-      password: "guest"
-    )
-
-    mock(fn
-      %{method: :put, url: "https://rabbitmq.example.com:5672/api/vhosts/foobar"} ->
-        %Tesla.Env{status: 204}
-    end)
-
-    on_exit(fn ->
-      Application.delete_env(:ex_rabbitmqadmin, ExRabbitMQAdmin.Client)
-    end)
-
     :ok
   end
 
@@ -62,17 +43,5 @@ defmodule ExRabbitMQAdminTest.Client do
                | _rest
              ]
            } = Client.client() |> Client.add_bearer_auth_middleware(token: "this is my token")
-  end
-
-  test "PUT a new vhost" do
-    params = %{
-      "name" => "foobar",
-      "description" => "a new vhost",
-      "tags" => ""
-    }
-
-    assert {:ok, %Tesla.Env{status: 204}} =
-             Client.client()
-             |> Client.put_vhost(params)
   end
 end

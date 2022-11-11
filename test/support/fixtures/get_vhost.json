@@ -1,0 +1,14 @@
+{
+  "name": "my-vhost",
+  "description": "a vhost for myself",
+  "tags": ["personal", "other-tag"],
+  "default_queue_type": "undefined",
+  "metadata": {
+    "description": "a vhost for myself",
+    "tags": ["personal", "other-tag"]
+  },
+  "tracing": false,
+  "cluster_state": {
+    "rabbit@rabbitmq": "running"
+  }
+}

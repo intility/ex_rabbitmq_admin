@@ -1,0 +1,30 @@
+[
+  {
+    "cluster_state": {
+      "rabbit@rabbitmq": "running"
+    },
+    "default_queue_type": "undefined",
+    "description": "Default virtual host",
+    "metadata": {
+      "description": "Default virtual host",
+      "tags": []
+    },
+    "name": "/",
+    "tags": [],
+    "tracing": false
+  },
+  {
+    "cluster_state": {
+      "rabbit@rabbitmq": "running"
+    },
+    "default_queue_type": "undefined",
+    "description": "a vhost for myself",
+    "metadata": {
+      "description": "a vhost for myself",
+      "tags": ["personal", "other-tag"]
+    },
+    "name": "my-vhost",
+    "tags": ["personal", "other-tag"],
+    "tracing": false
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "vhost": "my-vhost",
+    "user": "guest",
+    "configure": ".*",
+    "write": ".*",
+    "read": ".*"
+  }
+]

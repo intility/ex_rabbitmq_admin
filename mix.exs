@@ -3,11 +3,11 @@ defmodule ExRabbitMQAdmin.MixProject do
 
   @version "0.1.0"
   @description "A Http client library for RabbitMQ Web API"
-  @source_url "https://github.com/Intility/ex_rabbitmqadmin"
+  @source_url "https://github.com/Intility/ex_rabbitmq_admin"
 
   def project do
     [
-      app: :ex_rabbitmqadmin,
+      app: :ex_rabbitmq_admin,
       version: @version,
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -15,7 +15,7 @@ defmodule ExRabbitMQAdmin.MixProject do
       description: @description,
       deps: deps(),
       package: [
-        name: "ex_rabbitmqadmin",
+        name: "ex_rabbitmq_admin",
         maintainers: ["Rolf Håvard Blindheim <rolf.havard.blindheim@intility.no>"],
         licenses: ["Apache-2.0"],
         links: %{GitHub: @source_url}
@@ -29,9 +29,12 @@ defmodule ExRabbitMQAdmin.MixProject do
           "LICENSE"
         ]
       ],
-      test_coverage: [
-        [tool: ExCoveralls],
-        summary: [threshold: 90]
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
       ]
     ]
   end
