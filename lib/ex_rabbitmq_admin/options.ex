@@ -36,6 +36,25 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  def put_vhost_definition do
+    [
+      description: [
+        doc: """
+        Optional description for virtual host.
+        """,
+        type: :string,
+        default: ""
+      ],
+      tags: [
+        doc: """
+        Tags is an optional comma-separated list of tags.
+        """,
+        type: :string,
+        default: ""
+      ]
+    ]
+  end
+
   def format_error(%ValidationError{keys_path: [], message: message}), do: message
 
   def format_error(%ValidationError{keys_path: keys_path, message: message}) do

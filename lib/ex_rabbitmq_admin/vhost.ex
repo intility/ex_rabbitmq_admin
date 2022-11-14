@@ -1,8 +1,13 @@
-defmodule ExRabbitMQAdmin.VHost do
+defmodule ExRabbitMQAdmin.Vhost do
   @moduledoc """
-  This module contains functions for interacting with RabbitMQ VHosts.
+  This module contains functions for interacting with RabbitMQ Vhosts.
   """
-  import ExRabbitMQAdmin.Options, only: [pagination_definition: 0, format_error: 1]
+  import ExRabbitMQAdmin.Options,
+    only: [
+      pagination_definition: 0,
+      put_vhost_definition: 0,
+      format_error: 1
+    ]
 
   @doc """
   List all virtual hosts running on the RabbitMQ cluster.
@@ -89,8 +94,8 @@ defmodule ExRabbitMQAdmin.VHost do
 
   ### Params
 
-    * `name` - type: `string`
-    #{NimbleOptions.docs(pagination_definition())}
+    * `name` - type: `string`, required: `true`
+    #{NimbleOptions.docs(put_vhost_definition())}
   """
   @spec put_vhost(client :: Telsa.Client.t(), name :: String.t(), opts :: Keyword.t()) ::
           {:ok, Tesla.Env.t()}
@@ -117,26 +122,6 @@ defmodule ExRabbitMQAdmin.VHost do
   @spec start_vhost(client :: Tesla.Client.t(), name :: String.t(), node :: String.t()) ::
           {:ok, Tesla.Env.t()}
   def start_vhost(client, name, node) do
-    IO.inspect(name)
     client |> Tesla.post("/api/vhosts/#{name}/start/#{node}", %{})
-  end
-
-  defp put_vhost_definition do
-    [
-      description: [
-        doc: """
-        Optional description for virtual host.
-        """,
-        type: :string,
-        default: ""
-      ],
-      tags: [
-        doc: """
-        Tags is an optional comma-separated list of tags.
-        """,
-        type: :string,
-        default: ""
-      ]
-    ]
   end
 end

@@ -1,8 +1,8 @@
-defmodule ExRabbitMQAdmin.VHostTest do
+defmodule ExRabbitMQAdmin.VhostTest do
   use ExRabbitMQAdmin.TestCase, async: true
   import ExUnit.CaptureLog
 
-  alias ExRabbitMQAdmin.VHost
+  alias ExRabbitMQAdmin.Vhost
 
   setup do
     mock(fn
@@ -40,7 +40,7 @@ defmodule ExRabbitMQAdmin.VHostTest do
 
   test "can list vhosts" do
     assert {:ok, %Tesla.Env{status: 200, body: [%{"name" => "/"}, %{"name" => "my-vhost"}]}} =
-             Client.client() |> VHost.list_vhosts()
+             Client.client() |> Vhost.list_vhosts()
   end
 
   test "can get a single vhost by name" do
@@ -59,16 +59,16 @@ defmodule ExRabbitMQAdmin.VHostTest do
                 "tags" => ["personal", "other-tag"],
                 "tracing" => false
               }
-            }} = Client.client() |> VHost.get_vhost("my-vhost")
+            }} = Client.client() |> Vhost.get_vhost("my-vhost")
   end
 
   test "can list vhost connections" do
     assert {:ok, %Tesla.Env{status: 200}} =
-             Client.client() |> VHost.list_vhost_connections("my-vhost")
+             Client.client() |> Vhost.list_vhost_connections("my-vhost")
 
     {result, log} =
       with_log(fn ->
-        Client.client() |> VHost.list_vhost_connections("my-vhost", page: 10, page_size: 50)
+        Client.client() |> Vhost.list_vhost_connections("my-vhost", page: 10, page_size: 50)
       end)
 
     assert {:ok, %Tesla.Env{status: 200}} = result
@@ -78,17 +78,17 @@ defmodule ExRabbitMQAdmin.VHostTest do
                  "unknown options [:invalid_option], valid options are: [:page, :page_size, :name, :use_regex]",
                  fn ->
                    Client.client()
-                   |> VHost.list_vhost_connections("my-vhost", invalid_option: true)
+                   |> Vhost.list_vhost_connections("my-vhost", invalid_option: true)
                  end
   end
 
   test "can list vhost channels" do
     assert {:ok, %Tesla.Env{status: 200}} =
-             Client.client() |> VHost.list_vhost_channels("my-vhost")
+             Client.client() |> Vhost.list_vhost_channels("my-vhost")
 
     {result, log} =
       with_log(fn ->
-        Client.client() |> VHost.list_vhost_channels("my-vhost", page: 10, page_size: 50)
+        Client.client() |> Vhost.list_vhost_channels("my-vhost", page: 10, page_size: 50)
       end)
 
     assert {:ok, %Tesla.Env{status: 200}} = result
@@ -98,7 +98,7 @@ defmodule ExRabbitMQAdmin.VHostTest do
                  "unknown options [:invalid_option], valid options are: [:page, :page_size, :name, :use_regex]",
                  fn ->
                    Client.client()
-                   |> VHost.list_vhost_channels("my-vhost", invalid_option: true)
+                   |> Vhost.list_vhost_channels("my-vhost", invalid_option: true)
                  end
   end
 
@@ -115,22 +115,22 @@ defmodule ExRabbitMQAdmin.VHostTest do
                   "write" => ".*"
                 }
               ]
-            }} = Client.client() |> VHost.list_vhost_permissions("my-vhost")
+            }} = Client.client() |> Vhost.list_vhost_permissions("my-vhost")
   end
 
   test "can list vhost topic permissions" do
     assert {:ok, %Tesla.Env{status: 200}} =
-             Client.client() |> VHost.list_vhost_topic_permissions("my-vhost")
+             Client.client() |> Vhost.list_vhost_topic_permissions("my-vhost")
   end
 
   test "can put a new vhost" do
     assert {:ok, %Tesla.Env{status: 204}} =
              Client.client()
-             |> VHost.put_vhost("my-vhost")
+             |> Vhost.put_vhost("my-vhost")
 
     assert {:ok, %Tesla.Env{status: 204}} =
              Client.client()
-             |> VHost.put_vhost("my-vhost",
+             |> Vhost.put_vhost("my-vhost",
                description: "my fine virtual host",
                tags: "production"
              )
@@ -138,16 +138,16 @@ defmodule ExRabbitMQAdmin.VHostTest do
     assert_raise ArgumentError,
                  "unknown options [:invalid_option], valid options are: [:description, :tags]",
                  fn ->
-                   Client.client() |> VHost.put_vhost("my-vhost", invalid_option: true)
+                   Client.client() |> Vhost.put_vhost("my-vhost", invalid_option: true)
                  end
   end
 
   test "can delete a vhost" do
-    assert {:ok, %Tesla.Env{status: 204}} = Client.client() |> VHost.delete_vhost("my-vhost")
+    assert {:ok, %Tesla.Env{status: 204}} = Client.client() |> Vhost.delete_vhost("my-vhost")
   end
 
   test "can start a vhost on node" do
     assert {:ok, %Tesla.Env{status: 204}} =
-             Client.client() |> VHost.start_vhost("my-vhost", "rabbit@rabbitmq")
+             Client.client() |> Vhost.start_vhost("my-vhost", "rabbit@rabbitmq")
   end
 end

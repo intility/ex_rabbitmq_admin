@@ -20,7 +20,7 @@ defmodule ExRabbitMQAdmin do
 
         iex> ExRabbitMQAdmin.client()
              |> ExRabbitMQAdmin.add_basic_auth_middleware()
-             |> ExRabbitMQAdmin.VHost.list_vhosts()
+             |> ExRabbitMQAdmin.Vhost.list_vhosts()
         {:ok, %Tesla.Env{status: 200, body: [...]}}
   """
 
