@@ -81,6 +81,17 @@ defmodule ExRabbitMQAdmin.Client do
 
       def add_basic_auth_middleware(client), do: basic_auth_middleware(client) |> Tesla.client()
 
+      @spec query_middleware(client :: Tesla.Client.t(), param :: atom(), value :: Any.t()) :: [
+              {Tesla.Middleware.Query, Keyword.t()}
+            ]
+      def query_middleware(client, param, value),
+        do: [{Tesla.Middleware.Query, [{param, value}]} | Tesla.Client.middleware(client)]
+
+      @spec add_query_middleware(client :: Tesla.Client.t(), param :: atom(), value :: Any.t()) ::
+              Tesla.Client.t()
+      def add_query_middleware(client, param, value),
+        do: query_middleware(client, param, value) |> Tesla.client()
+
       @spec client_option(opts :: Keyword.t(), atom()) :: any()
       defp client_option(key) when is_atom(key),
         do: Application.get_env(unquote(otp_app), __MODULE__) |> client_option(key)

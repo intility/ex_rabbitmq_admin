@@ -44,4 +44,17 @@ defmodule ExRabbitMQAdminTest.Client do
              ]
            } = Client.client() |> Client.add_bearer_auth_middleware(token: "this is my token")
   end
+
+  test "can add query params to default client" do
+    assert %Tesla.Client{
+             pre: [
+               {Tesla.Middleware.Query, :call, [[baz: "qux"]]},
+               {Tesla.Middleware.Query, :call, [[foo: "bar"]]}
+               | _rest
+             ]
+           } =
+             Client.client()
+             |> Client.add_query_middleware(:foo, "bar")
+             |> Client.add_query_middleware(:baz, "qux")
+  end
 end
