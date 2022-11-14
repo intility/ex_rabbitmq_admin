@@ -51,10 +51,11 @@ defmodule ExRabbitMQAdmin.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.29", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.15.0", only: :test},
+      {:excoveralls, "~> 0.15", only: :test},
       {:hackney, "~> 1.18", optional: true},
       {:jason, "~> 1.4"},
-      {:tesla, "~> 1.4"}
+      {:tesla, "~> 1.4"},
+      {:nimble_options, "~> 0.5"}
     ]
   end
 end

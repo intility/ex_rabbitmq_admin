@@ -2,6 +2,7 @@ defmodule ExRabbitMQAdmin.VHost do
   @moduledoc """
   This module contains functions for interacting with RabbitMQ VHosts.
   """
+  import ExRabbitMQAdmin.Options, only: [pagination_definition: 0, format_error: 1]
 
   @doc """
   List all virtual hosts running on the RabbitMQ cluster.
@@ -15,26 +16,25 @@ defmodule ExRabbitMQAdmin.VHost do
 
   ### Params
 
-    * `name` - type: `binary`, required: `true`
-    * `params` - type: `map`, reqiured: `false`
-
-        * `page` - type: `non_neg_integer`, required: `false`
-        * `page_size` - type: `non_neg_integer`, required: `false`
-        * `use_regex` - type: `boolean`, required: `false`
-
-        ```
-        %{
-          "page" => 1,
-          "page_size" => 100,
-          "use_regex" => true
-        }
-
-        ```
+    * `name` - type: `string`, required: `true`
+    #{NimbleOptions.docs(pagination_definition())}
   """
-  @spec list_vhost_connections(client :: Tesla.Client.t(), name :: String.t(), params :: map()) ::
+  @spec list_vhost_connections(
+          client :: Tesla.Client.t(),
+          name :: String.t(),
+          opts :: Keyword.t()
+        ) ::
           {:ok, Tesla.Env.t()}
-  def list_vhost_connections(client, name, params \\ %{}) do
-    client |> Tesla.get("/api/vhosts/#{name}/connections", params)
+  def list_vhost_connections(client, name, opts \\ []) do
+    case NimbleOptions.validate(opts, pagination_definition()) do
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
+
+      {:ok, opts} ->
+        client
+        |> ExRabbitMQAdmin.add_query_middleware(opts)
+        |> Tesla.get("/api/vhosts/#{name}/connections")
+    end
   end
 
   @doc """
@@ -43,26 +43,21 @@ defmodule ExRabbitMQAdmin.VHost do
 
   ### Params
 
-    * `name` - type: `binary`, required: `true`
-    * `params` - type: `map`, reqiured: `false`
-
-        * `page` - type: `non_neg_integer`, required: `false`
-        * `page_size` - type: `non_neg_integer`, required: `false`
-        * `use_regex` - type: `boolean`, required: `false`
-
-        ```
-        %{
-          "page" => 1,
-          "page_size" => 100,
-          "use_regex" => true
-        }
-
-        ```
+    * `name` - type: `string`, required: `true`
+    #{NimbleOptions.docs(pagination_definition())}
   """
-  @spec list_vhost_channels(client :: Tesla.Client.t(), name :: String.t(), params :: map()) ::
+  @spec list_vhost_channels(client :: Tesla.Client.t(), name :: String.t(), opts :: Keyword.t()) ::
           {:ok, Tesla.Env.t()}
-  def list_vhost_channels(client, name, params \\ %{}) do
-    client |> Tesla.get("/api/vhosts/#{name}/channels", params)
+  def list_vhost_channels(client, name, opts \\ []) do
+    case NimbleOptions.validate(opts, pagination_definition()) do
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
+
+      {:ok, opts} ->
+        client
+        |> ExRabbitMQAdmin.add_query_middleware(opts)
+        |> Tesla.get("/api/vhosts/#{name}/connections")
+    end
   end
 
   @doc """
@@ -94,23 +89,21 @@ defmodule ExRabbitMQAdmin.VHost do
 
   ### Params
 
-    * `params` - type: `map`
-
-      * `name` - type: `binary`, required: `true`
-      * `description` - type: `binary`, required: `false`
-      * `tags` - type: `binary`, required: `false`. Comma-separated list of tags to be set on the virtual host
-
-      ```
-      %{
-        "name" => "accounting",
-        "description" => "this vhost is for accounting messages",
-        "tags" => "finance,production"
-      }
-      ```
+    * `name` - type: `string`
+    #{NimbleOptions.docs(pagination_definition())}
   """
-  @spec put_vhost(client :: Telsa.Client.t(), params :: map) :: {:ok, Tesla.Env.t()}
-  def put_vhost(client, %{"name" => name} = params),
-    do: client |> Tesla.put("/api/vhosts/#{name}", params)
+  @spec put_vhost(client :: Telsa.Client.t(), name :: String.t(), opts :: Keyword.t()) ::
+          {:ok, Tesla.Env.t()}
+  def put_vhost(client, name, opts \\ []) do
+    case NimbleOptions.validate(opts, put_vhost_definition()) do
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
+
+      {:ok, opts} ->
+        client
+        |> Tesla.put("/api/vhosts/#{name}", Enum.into(opts, %{}))
+    end
+  end
 
   @doc """
   Delete a specific virtual host by name.
@@ -124,6 +117,26 @@ defmodule ExRabbitMQAdmin.VHost do
   @spec start_vhost(client :: Tesla.Client.t(), name :: String.t(), node :: String.t()) ::
           {:ok, Tesla.Env.t()}
   def start_vhost(client, name, node) do
-    client |> Tesla.post("/api/vhosts/#{name}/start/#{node}")
+    IO.inspect(name)
+    client |> Tesla.post("/api/vhosts/#{name}/start/#{node}", %{})
+  end
+
+  defp put_vhost_definition do
+    [
+      description: [
+        doc: """
+        Optional description for virtual host.
+        """,
+        type: :string,
+        default: ""
+      ],
+      tags: [
+        doc: """
+        Tags is an optional comma-separated list of tags.
+        """,
+        type: :string,
+        default: ""
+      ]
+    ]
   end
 end

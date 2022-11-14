@@ -81,16 +81,18 @@ defmodule ExRabbitMQAdmin.Client do
 
       def add_basic_auth_middleware(client), do: basic_auth_middleware(client) |> Tesla.client()
 
-      @spec query_middleware(client :: Tesla.Client.t(), param :: atom(), value :: Any.t()) :: [
-              {Tesla.Middleware.Query, Keyword.t()}
-            ]
-      def query_middleware(client, param, value),
-        do: [{Tesla.Middleware.Query, [{param, value}]} | Tesla.Client.middleware(client)]
+      @spec query_middleware(client :: Tesla.Client.t(), params :: Keyword.t()) ::
+              [{Tesla.Middleware.Query, Keyword.t()}]
+      def query_middleware(client, params),
+        do: [{Tesla.Middleware.Query, params} | Tesla.Client.middleware(client)]
 
-      @spec add_query_middleware(client :: Tesla.Client.t(), param :: atom(), value :: Any.t()) ::
+      @spec add_query_middleware(client :: Tesla.Client.t(), params :: Keyword.t()) ::
               Tesla.Client.t()
-      def add_query_middleware(client, param, value),
-        do: query_middleware(client, param, value) |> Tesla.client()
+      def add_query_middleware(client, [{key, _} | _] = params) when is_atom(key),
+        do: query_middleware(client, params) |> Tesla.client()
+
+      def add_query_middleware(client, param, value) when is_atom(param),
+        do: add_query_middleware(client, [{param, value}])
 
       @spec client_option(opts :: Keyword.t(), atom()) :: any()
       defp client_option(key) when is_atom(key),

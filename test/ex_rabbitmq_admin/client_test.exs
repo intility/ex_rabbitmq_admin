@@ -56,5 +56,15 @@ defmodule ExRabbitMQAdminTest.Client do
              Client.client()
              |> Client.add_query_middleware(:foo, "bar")
              |> Client.add_query_middleware(:baz, "qux")
+
+    assert %Tesla.Client{
+             pre: [
+               {Tesla.Middleware.Query, :call, [[foo: "bar", baz: "qux"]]}
+               | _rest
+             ]
+           } =
+             client =
+             Client.client()
+             |> Client.add_query_middleware(foo: "bar", baz: "qux")
   end
 end
