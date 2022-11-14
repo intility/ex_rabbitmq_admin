@@ -25,6 +25,7 @@ defmodule ExRabbitMQAdmin.Client do
       end
 
   """
+  # coveralls-ignore-start
   defmacro __using__(opts) do
     {:ok, otp_app} = Keyword.fetch(opts, :otp_app)
 
@@ -90,4 +91,6 @@ defmodule ExRabbitMQAdmin.Client do
       defp client_option(opts, :token), do: Keyword.get(opts, :token, "")
     end
   end
+
+  # coveralls-ignore-stop
 end
