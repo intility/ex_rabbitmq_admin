@@ -20,10 +20,6 @@ defmodule ExRabbitMQAdmin.TestCase do
       password: "guest"
     )
 
-    on_exit(fn ->
-      Application.delete_env(:ex_rabbitmq_admin, ExRabbitMQAdmin.TestCase.Client)
-    end)
-
     :ok
   end
 end

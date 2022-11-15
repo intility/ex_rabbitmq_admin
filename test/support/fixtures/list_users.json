@@ -1,0 +1,16 @@
+[
+  {
+    "name": "guest",
+    "password_hash": "W6Wvkzx3Z7IKFbeH8h3hf7JHCyetmOV4IaH2IBHQPSD/aNsU",
+    "hashing_algorithm": "rabbit_password_hashing_sha256",
+    "tags": ["administrator"],
+    "limits": {}
+  },
+  {
+    "name": "testuser",
+    "password_hash": "GqEzafDkk03sp6WB8fUAhNGAQAnfNBOLAZwPUg9hB2b30hq5Ek/0J40J7FDx5v3zm8h/7+gRgmUnUHZMOGOFLHspN2s=",
+    "hashing_algorithm": "rabbit_password_hashing_sha512",
+    "tags": ["administrator"],
+    "limits": {}
+  }
+]

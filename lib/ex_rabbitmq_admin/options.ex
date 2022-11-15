@@ -1,6 +1,6 @@
 defmodule ExRabbitMQAdmin.Options do
   @moduledoc """
-
+  This module contains parameter validation rules.
   """
   alias NimbleOptions.ValidationError
 
@@ -51,6 +51,29 @@ defmodule ExRabbitMQAdmin.Options do
         """,
         type: :string,
         default: ""
+      ]
+    ]
+  end
+
+  def put_user_definition do
+    [
+      password: [
+        doc: """
+        The password that will be used for the created user. All passwords will be hashed using the
+        `rabbit_password_hashing_sha512` hashing algorithm before sent to over the wire.
+        If blank password, users will not be able to login using a password, but other mechanisms
+        like client certificates may be used.
+        """,
+        type: :string,
+        required: true
+      ],
+      tags: [
+        doc: """
+        Comma-separated list of tags for the user. Currently only `administrator`, `monitoring`
+        and `management` are recognized.
+        """,
+        type: :string,
+        required: true
       ]
     ]
   end
