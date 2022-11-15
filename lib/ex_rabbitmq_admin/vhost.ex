@@ -1,6 +1,6 @@
 defmodule ExRabbitMQAdmin.Vhost do
   @moduledoc """
-  This module contains functions for interacting with RabbitMQ Vhosts.
+  This module contains functions for interacting with RabbitMQ virtual hosts.
   """
   import ExRabbitMQAdmin.Options,
     only: [
@@ -11,6 +11,10 @@ defmodule ExRabbitMQAdmin.Vhost do
 
   @doc """
   List all virtual hosts running on the RabbitMQ cluster.
+
+  ### Params
+
+    * `client` - Tesla client used to perform the request.
   """
   @spec list_vhosts(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()}
   def list_vhosts(client), do: client |> Tesla.get("/api/vhosts")
@@ -21,6 +25,7 @@ defmodule ExRabbitMQAdmin.Vhost do
 
   ### Params
 
+    * `client` - Tesla client used to perform the request.
     * `name` - type: `string`, required: `true`
     #{NimbleOptions.docs(pagination_definition())}
   """
@@ -48,6 +53,7 @@ defmodule ExRabbitMQAdmin.Vhost do
 
   ### Params
 
+    * `client` - Tesla client used to perform the request.
     * `name` - type: `string`, required: `true`
     #{NimbleOptions.docs(pagination_definition())}
   """
@@ -67,24 +73,35 @@ defmodule ExRabbitMQAdmin.Vhost do
 
   @doc """
   List all permissions for a specific virtual host.
+
+  ### Params
+
+  * `client` - Tesla client used to perform the request.
+  * `name` - type: `string`, The name of the vhost to list permissions for.
   """
   @spec list_vhost_permissions(client :: Tesla.Client.t(), name :: String.t()) ::
           {:ok, Tesla.Env.t()}
-  def list_vhost_permissions(client, name) do
-    client |> Tesla.get("/api/vhosts/#{name}/permissions")
-  end
+  def list_vhost_permissions(client, name),
+    do: client |> Tesla.get("/api/vhosts/#{name}/permissions")
 
   @doc """
   List all topic permissions for a specific virtual host.
+
+  ### Params
+
+    * `client` - Tesla client used to perform the request.
   """
   @spec list_vhost_topic_permissions(client :: Tesla.Client.t(), name :: String.t()) ::
           {:ok, Tesla.Env.t()}
-  def list_vhost_topic_permissions(client, name) do
-    client |> Tesla.get("/api/vhosts/#{name}/topic-permissions")
-  end
+  def list_vhost_topic_permissions(client, name),
+    do: client |> Tesla.get("/api/vhosts/#{name}/topic-permissions")
 
   @doc """
   Get an individual virtual host by name.
+
+  ### Params
+
+    * `client` - Tesla client used to perform the request.
   """
   @spec get_vhost(client :: Telsa.Client.t(), name :: String.t()) :: {:ok, Tesla.Env.t()}
   def get_vhost(client, name) when is_binary(name), do: client |> Tesla.get("/api/vhosts/#{name}")
@@ -94,6 +111,7 @@ defmodule ExRabbitMQAdmin.Vhost do
 
   ### Params
 
+    * `client` - Tesla client used to perform the request.
     * `name` - type: `string`, required: `true`
     #{NimbleOptions.docs(put_vhost_definition())}
   """
@@ -112,16 +130,26 @@ defmodule ExRabbitMQAdmin.Vhost do
 
   @doc """
   Delete a specific virtual host by name.
+
+  ### Params
+
+    * `client` - Tesla client used to perform the request.
+    * `name` - type: `string`, The name of the virtual host that should be deleted.
   """
   @spec delete_vhost(client :: Tesla.Client.t(), name :: String.t()) :: {:ok, Tesla.Env.t()}
   def delete_vhost(client, name), do: client |> Tesla.delete("/api/vhosts/#{name}")
 
   @doc """
   Start a specific virtual host on given node.
+
+  ### Params
+
+    * `client` - Tesla client used to perform the request.
+    * `name` - type: `string`, The name of the virtual host that should be started.
+    * `node` - type: `string`, The name of the node that the virtual host should be started on.
   """
   @spec start_vhost(client :: Tesla.Client.t(), name :: String.t(), node :: String.t()) ::
           {:ok, Tesla.Env.t()}
-  def start_vhost(client, name, node) do
-    client |> Tesla.post("/api/vhosts/#{name}/start/#{node}", %{})
-  end
+  def start_vhost(client, name, node),
+    do: client |> Tesla.post("/api/vhosts/#{name}/start/#{node}", %{})
 end
