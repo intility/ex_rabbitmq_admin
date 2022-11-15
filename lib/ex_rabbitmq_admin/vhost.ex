@@ -9,6 +9,8 @@ defmodule ExRabbitMQAdmin.Vhost do
       format_error: 1
     ]
 
+  @api_namespace "/api/vhosts"
+
   @doc """
   List all virtual hosts running on the RabbitMQ cluster.
 
@@ -17,7 +19,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     * `client` - Tesla client used to perform the request.
   """
   @spec list_vhosts(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()}
-  def list_vhosts(client), do: client |> Tesla.get("/api/vhosts")
+  def list_vhosts(client), do: client |> Tesla.get(@api_namespace)
 
   @doc """
   List all open open connections in a specific virtual host.
@@ -43,7 +45,7 @@ defmodule ExRabbitMQAdmin.Vhost do
       {:ok, opts} ->
         client
         |> ExRabbitMQAdmin.add_query_middleware(opts)
-        |> Tesla.get("/api/vhosts/#{name}/connections")
+        |> Tesla.get("#{@api_namespace}/#{name}/connections")
     end
   end
 
@@ -67,7 +69,7 @@ defmodule ExRabbitMQAdmin.Vhost do
       {:ok, opts} ->
         client
         |> ExRabbitMQAdmin.add_query_middleware(opts)
-        |> Tesla.get("/api/vhosts/#{name}/connections")
+        |> Tesla.get("#{@api_namespace}/#{name}/connections")
     end
   end
 
@@ -82,7 +84,7 @@ defmodule ExRabbitMQAdmin.Vhost do
   @spec list_vhost_permissions(client :: Tesla.Client.t(), name :: String.t()) ::
           {:ok, Tesla.Env.t()}
   def list_vhost_permissions(client, name),
-    do: client |> Tesla.get("/api/vhosts/#{name}/permissions")
+    do: client |> Tesla.get("#{@api_namespace}/#{name}/permissions")
 
   @doc """
   List all topic permissions for a specific virtual host.
@@ -94,7 +96,7 @@ defmodule ExRabbitMQAdmin.Vhost do
   @spec list_vhost_topic_permissions(client :: Tesla.Client.t(), name :: String.t()) ::
           {:ok, Tesla.Env.t()}
   def list_vhost_topic_permissions(client, name),
-    do: client |> Tesla.get("/api/vhosts/#{name}/topic-permissions")
+    do: client |> Tesla.get("#{@api_namespace}/#{name}/topic-permissions")
 
   @doc """
   Get an individual virtual host by name.
@@ -104,7 +106,8 @@ defmodule ExRabbitMQAdmin.Vhost do
     * `client` - Tesla client used to perform the request.
   """
   @spec get_vhost(client :: Telsa.Client.t(), name :: String.t()) :: {:ok, Tesla.Env.t()}
-  def get_vhost(client, name) when is_binary(name), do: client |> Tesla.get("/api/vhosts/#{name}")
+  def get_vhost(client, name) when is_binary(name),
+    do: client |> Tesla.get("#{@api_namespace}/#{name}")
 
   @doc """
   Create a new virtual host with given name.
@@ -124,7 +127,7 @@ defmodule ExRabbitMQAdmin.Vhost do
 
       {:ok, opts} ->
         client
-        |> Tesla.put("/api/vhosts/#{name}", Enum.into(opts, %{}))
+        |> Tesla.put("#{@api_namespace}/#{name}", Enum.into(opts, %{}))
     end
   end
 
@@ -137,7 +140,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     * `name` - type: `string`, The name of the virtual host that should be deleted.
   """
   @spec delete_vhost(client :: Tesla.Client.t(), name :: String.t()) :: {:ok, Tesla.Env.t()}
-  def delete_vhost(client, name), do: client |> Tesla.delete("/api/vhosts/#{name}")
+  def delete_vhost(client, name), do: client |> Tesla.delete("#{@api_namespace}/#{name}")
 
   @doc """
   Start a specific virtual host on given node.
@@ -151,5 +154,5 @@ defmodule ExRabbitMQAdmin.Vhost do
   @spec start_vhost(client :: Tesla.Client.t(), name :: String.t(), node :: String.t()) ::
           {:ok, Tesla.Env.t()}
   def start_vhost(client, name, node),
-    do: client |> Tesla.post("/api/vhosts/#{name}/start/#{node}", %{})
+    do: client |> Tesla.post("#{@api_namespace}/#{name}/start/#{node}", %{})
 end
