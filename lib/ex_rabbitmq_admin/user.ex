@@ -2,6 +2,8 @@ defmodule ExRabbitMQAdmin.User do
   @moduledoc """
   This module contains functions for interacting with RabbitMQ users.
   """
+  require Logger
+
   import ExRabbitMQAdmin.Options,
     only: [
       put_user_definition: 0,
@@ -33,6 +35,10 @@ defmodule ExRabbitMQAdmin.User do
 
   @doc """
   Create a new user with given name.
+  RabbitMQ currently only supports weak password hashing algorithms, and
+  should be avoided if possible. If passing a blank password, a password-less
+  user will be created. This user will not be able to authenticate with
+  basic auth, and must use other means (such as TLS certificates).
 
   ### Params
 
@@ -47,12 +53,22 @@ defmodule ExRabbitMQAdmin.User do
          {:ok, password} <- Keyword.fetch(opts, :password),
          {:ok, password_hash} <- hash_password(password) do
       params =
-        Keyword.take(opts, [:tags])
-        |> Keyword.merge(
-          password_hash: password_hash,
-          hashing_algorithm: "rabbit_password_hashing_sha512"
-        )
-        |> Enum.into(%{})
+        case password do
+          "" ->
+            Logger.info("Creating password-less user account for \"#{user}\"")
+
+            Keyword.take(opts, [:tags])
+            |> Keyword.merge(password_hash: "")
+            |> Enum.into(%{})
+
+          _ ->
+            Keyword.take(opts, [:tags])
+            |> Keyword.merge(
+              password_hash: password_hash,
+              hashing_algorithm: "rabbit_password_hashing_sha512"
+            )
+            |> Enum.into(%{})
+        end
 
       client |> Tesla.put("#{@api_namespace}/#{user}", params)
     else
@@ -128,7 +144,8 @@ defmodule ExRabbitMQAdmin.User do
   RabbitMQ by default relies on (weak) hashed password, but we're enforcing
   the strongest supported hashing algorithm (sha512).
 
-  Avoid using passwords if possible.
+  If possible, avoid using passwords and authenticate using other means
+  such as [TLS certificates](https://rabbitmq.com/passwords.html#x509-certificate-authentication).
 
   ### Params
 

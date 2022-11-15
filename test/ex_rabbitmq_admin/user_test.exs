@@ -61,6 +61,14 @@ defmodule ExRabbitMQAdmin.UserTest do
     assert {:ok, %Tesla.Env{status: 201}} = result
     assert log =~ "%{hashing_algorithm: \"rabbit_password_hashing_sha512\", password_hash:"
 
+    {_result, log} =
+      with_log(fn ->
+        Client.client()
+        |> User.put_user("testuser", password: "", tags: "moderator")
+      end)
+
+    assert log =~ "Creating password-less user account for \"testuser\""
+
     assert_raise ArgumentError,
                  "required :tags option not found, received options: [:password]",
                  fn ->
