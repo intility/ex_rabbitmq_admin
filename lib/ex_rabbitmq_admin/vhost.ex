@@ -6,6 +6,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     only: [
       pagination_definition: 0,
       put_vhost_definition: 0,
+      put_vhost_permissions: 0,
       format_error: 1
     ]
 
@@ -85,6 +86,31 @@ defmodule ExRabbitMQAdmin.Vhost do
           {:ok, Tesla.Env.t()}
   def list_vhost_permissions(client, name),
     do: client |> Tesla.get("#{@api_namespace}/#{name}/permissions")
+
+  @doc """
+  Set permissions for a user on a specific virtual host.
+  RabbitMQ permissions are defined as triples of regular expressions.
+
+  Please consult the
+  [official documentation](https://www.rabbitmq.com/access-control.html#authorisation)
+  for more details.
+
+  ### Params
+
+    * `client` - Tesla client used to perform the request.
+    * `name` - type: `string`, The name of the vhost to assign permissions for.
+    * `user` - type: `string`, The username to assign permissions for.
+    #{NimbleOptions.docs(put_vhost_permissions())}
+  """
+  def put_vhost_permissions(client, name, user, opts \\ []) do
+    case NimbleOptions.validate(opts, put_vhost_permissions()) do
+      {:ok, opts} ->
+        client |> Tesla.put("/api/permissions/#{name}/#{user}", Enum.into(opts, %{}))
+
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
+    end
+  end
 
   @doc """
   List all topic permissions for a specific virtual host.

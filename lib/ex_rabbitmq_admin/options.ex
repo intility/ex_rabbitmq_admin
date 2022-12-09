@@ -78,6 +78,38 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  def put_vhost_permissions do
+    [
+      configure: [
+        doc: """
+        A regular expression that will determine the `configure` permissions for the given resource.
+        Defaults to deny-all.
+        """,
+        type: :string,
+        required: true,
+        default: "^$"
+      ],
+      write: [
+        doc: """
+        A regular expression that will determine the `write` permissions for the given resource.
+        Defaults to deny-all.
+        """,
+        type: :string,
+        required: true,
+        default: "^$"
+      ],
+      read: [
+        doc: """
+        A regular expression that will determine the `read` permissions for the given resource.
+        Defaults to deny-all.
+        """,
+        type: :string,
+        required: true,
+        default: "^$"
+      ]
+    ]
+  end
+
   def format_error(%ValidationError{keys_path: [], message: message}), do: message
 
   def format_error(%ValidationError{keys_path: keys_path, message: message}) do

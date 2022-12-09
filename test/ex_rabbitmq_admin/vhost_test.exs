@@ -18,6 +18,9 @@ defmodule ExRabbitMQAdmin.VhostTest do
       %{method: :get, url: "https://rabbitmq.example.com:5672/api/vhosts/my-vhost/permissions"} ->
         %Tesla.Env{status: 200, body: read_json("get_vhost_permissions.json")}
 
+      %{method: :put, url: "https://rabbitmq.example.com:5672/api/permissions/my-vhost/testuser"} ->
+        %Tesla.Env{status: 201}
+
       %{
         method: :get,
         url: "https://rabbitmq.example.com:5672/api/vhosts/my-vhost/topic-permissions"
@@ -116,6 +119,16 @@ defmodule ExRabbitMQAdmin.VhostTest do
                 }
               ]
             }} = Client.client() |> Vhost.list_vhost_permissions("my-vhost")
+  end
+
+  test "can put vhost permissions" do
+    assert {:ok, %Tesla.Env{status: 201}} =
+             Client.client()
+             |> Vhost.put_vhost_permissions("my-vhost", "testuser",
+               configure: "*",
+               read: ".*",
+               write: ".*"
+             )
   end
 
   test "can list vhost topic permissions" do
