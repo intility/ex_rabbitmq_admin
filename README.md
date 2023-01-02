@@ -64,5 +64,5 @@ The RabbitMQ HTTP API documentation is available [here](https://rawcdn.githack.c
 ### Running the test suite
 
 ```shell
-$ MIX_ENV=test mix coveralls
+$ MIX_ENV=test mix coveralls.html
 ```

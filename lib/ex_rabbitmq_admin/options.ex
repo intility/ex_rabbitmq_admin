@@ -4,6 +4,7 @@ defmodule ExRabbitMQAdmin.Options do
   """
   alias NimbleOptions.ValidationError
 
+  @doc false
   def pagination_definition do
     [
       page: [
@@ -36,6 +37,7 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  @doc false
   def put_user_definition do
     [
       password: [
@@ -59,6 +61,7 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  @doc false
   def put_vhost_definition do
     [
       description: [
@@ -78,6 +81,7 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  @doc false
   def put_vhost_permissions do
     [
       configure: [
@@ -110,6 +114,7 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  @doc false
   def receive_messages_definition do
     [
       count: [
@@ -155,6 +160,28 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  @doc false
+  defp put_queue_definition do
+    [
+      auto_delete: [
+        doc: """
+        If true, automatically delete the queue when the last consumer disconnects.
+        """,
+        type: :boolean,
+        default: false
+      ],
+      durable: [
+        doc: """
+        If true, messages are persisted on disk. This can lead to lower throughput, but better
+        data consistency.
+        """,
+        type: :boolean,
+        default: true
+      ]
+    ]
+  end
+
+  @doc false
   def format_error(%ValidationError{keys_path: [], message: message}), do: message
 
   def format_error(%ValidationError{keys_path: keys_path, message: message}) do
