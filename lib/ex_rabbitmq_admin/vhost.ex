@@ -89,7 +89,7 @@ defmodule ExRabbitMQAdmin.Vhost do
 
   @doc """
   Set permissions for a user on a specific virtual host.
-  RabbitMQ permissions are defined as triples of regular expressions.
+  RabbitMQ permissions are defined as triplets of regular expressions.
 
   Please consult the
   [official documentation](https://www.rabbitmq.com/access-control.html#authorisation)
@@ -102,6 +102,12 @@ defmodule ExRabbitMQAdmin.Vhost do
     * `user` - type: `string`, The username to assign permissions for.
     #{NimbleOptions.docs(put_vhost_permissions())}
   """
+  @spec put_vhost_permissions(
+          client :: Telsa.Client.t(),
+          name :: String.t(),
+          user :: String.t(),
+          opts :: Keyword.t()
+        ) :: {:ok, Tesla.Env.t()} | ArgumentError
   def put_vhost_permissions(client, name, user, opts \\ []) do
     case NimbleOptions.validate(opts, put_vhost_permissions()) do
       {:ok, opts} ->
