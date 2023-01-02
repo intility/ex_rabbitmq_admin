@@ -36,25 +36,6 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
-  def put_vhost_definition do
-    [
-      description: [
-        doc: """
-        Optional description for virtual host.
-        """,
-        type: :string,
-        default: ""
-      ],
-      tags: [
-        doc: """
-        Tags is an optional comma-separated list of tags.
-        """,
-        type: :string,
-        default: ""
-      ]
-    ]
-  end
-
   def put_user_definition do
     [
       password: [
@@ -74,6 +55,25 @@ defmodule ExRabbitMQAdmin.Options do
         """,
         type: :string,
         required: true
+      ]
+    ]
+  end
+
+  def put_vhost_definition do
+    [
+      description: [
+        doc: """
+        Optional description for virtual host.
+        """,
+        type: :string,
+        default: ""
+      ],
+      tags: [
+        doc: """
+        Tags is an optional comma-separated list of tags.
+        """,
+        type: :string,
+        default: ""
       ]
     ]
   end
@@ -106,6 +106,51 @@ defmodule ExRabbitMQAdmin.Options do
         type: :string,
         required: true,
         default: "^$"
+      ]
+    ]
+  end
+
+  def receive_messages_definition do
+    [
+      count: [
+        doc: """
+        Maximum number of messages to receive. You may get fewer messages if the queue
+        cannot immediately provide them.
+        """,
+        type: :pos_integer,
+        required: true,
+        default: 1
+      ],
+      ackmode: [
+        doc: """
+        Determines if the messages will be removed from the queue. If set to `ack_requeue_true`
+        or `reject_requeue_true`, the messages will be re-queued. If set to `ack_requeue_false`,
+        or `reject_requeue_false`, they will be removed.
+        """,
+        type:
+          {:in,
+           [
+             :ack_requeue_true,
+             :ack_requeue_false,
+             :reject_requeue_true,
+             :reject_requeue_false
+           ]},
+        required: true
+      ],
+      encoding: [
+        doc: """
+        If set to `auto`, message payload will be returned as string if it is valid UTF-8, or
+        base64 encoded otherwise. If set to `base64` message payload will always be base64 encoded.
+        """,
+        type: {:in, [:auto, :base64]},
+        required: true,
+        default: :auto
+      ],
+      truncate: [
+        doc: """
+        If present, truncate the message payload if larger than given size (in bytes).
+        """,
+        type: :pos_integer
       ]
     ]
   end
