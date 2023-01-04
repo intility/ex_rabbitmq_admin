@@ -2,8 +2,6 @@ import Config
 
 case config_env() do
   :dev ->
-    config :mix_test_watch, tasks: ["test --cover"]
-
     config :tesla, adapter: {Tesla.Adapter.Hackney, [recv_timeout: 30_000]}
 
     config :ex_rabbitmq_admin, ExRabbitMQAdmin.Client,
