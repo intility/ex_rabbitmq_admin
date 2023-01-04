@@ -1,0 +1,20 @@
+[
+  {
+    "source": "",
+    "vhost": "my-vhost",
+    "destination": "my-queue-1",
+    "destination_type": "queue",
+    "routing_key": "my-queue-1",
+    "arguments": {},
+    "properties_key": "my-queue-1"
+  },
+  {
+    "source": "amq.direct",
+    "vhost": "my-vhost",
+    "destination": "my-queue-1",
+    "destination_type": "queue",
+    "routing_key": "my-queue1-routing-key",
+    "arguments": {},
+    "properties_key": "my-queue1-routing-key"
+  }
+]

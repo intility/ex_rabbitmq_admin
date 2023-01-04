@@ -5,6 +5,8 @@ defmodule ExRabbitMQAdmin.Queue do
   import ExRabbitMQAdmin.Options,
     only: [
       pagination_definition: 0,
+      put_queue_definition: 0,
+      delete_queue_definition: 0,
       receive_messages_definition: 0,
       format_error: 1
     ]
@@ -25,9 +27,9 @@ defmodule ExRabbitMQAdmin.Queue do
       {:error, error} ->
         raise ArgumentError, format_error(error)
 
-      {:ok, opts} ->
+      {:ok, params} ->
         client
-        |> ExRabbitMQAdmin.add_query_middleware(opts)
+        |> ExRabbitMQAdmin.add_query_middleware(params)
         |> Tesla.get("#{@api_namespace}")
     end
   end
@@ -48,12 +50,29 @@ defmodule ExRabbitMQAdmin.Queue do
       {:error, error} ->
         raise ArgumentError, format_error(error)
 
-      {:ok, opts} ->
+      {:ok, params} ->
         client
-        |> ExRabbitMQAdmin.add_query_middleware(opts)
+        |> ExRabbitMQAdmin.add_query_middleware(params)
         |> Tesla.get("#{@api_namespace}/#{vhost}")
     end
   end
+
+  @doc """
+  List all bindings for a queue under a virtual host.
+
+  ### Params
+
+    * `client` - Tesla client used to perform the request.
+    * `vhost` - type: `string`, Virtual host for the queue.
+    * `queue` - type: `string`, Name of the queue to get bindings for.
+  """
+  @spec list_queue_bindings(
+          client :: Tesla.Client.t(),
+          vhost :: String.t(),
+          queue :: String.t()
+        ) :: {:ok, Tesla.Env.t()}
+  def list_queue_bindings(client, vhost, queue),
+    do: Tesla.get(client, "#{@api_namespace}/#{vhost}/#{queue}/bindings")
 
   @doc """
   Get an individual queue under a virtual host by name.
@@ -77,7 +96,7 @@ defmodule ExRabbitMQAdmin.Queue do
     * `client` - Tesla client used to perform the request.
     * `vhost` - type: `string`, Virtual host for the queue.
     * `queue` - type: `string`, Name of the queue to get.
-    * `opts` - type: `keyword`, Optional arguments for the queue.
+    #{NimbleOptions.docs(put_queue_definition())}
   """
   @spec put_queue(
           client :: Tesla.Client.t(),
@@ -86,47 +105,52 @@ defmodule ExRabbitMQAdmin.Queue do
           opts :: Keyword.t()
         ) :: {:ok, Tesla.Env.t()}
   def put_queue(client, vhost, queue, opts \\ []) do
-    # TODO implement
+    case NimbleOptions.validate(opts, put_queue_definition()) do
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
+
+      {:ok, params} ->
+        client
+        |> Tesla.put("#{@api_namespace}/#{vhost}/#{queue}", Enum.into(params, %{}))
+    end
   end
 
   @doc """
   Delete an existing queue under a virtual host.
-  Valid options are `if_empty` or `if_unused`.
 
   ### Params
 
     * `client` - Tesla client used to perform the request.
     * `vhost` - type: `string`, Virtual host for the queue.
     * `queue` - type: `string`, Name of the queue to delete.
-    * `opts` - type: `keyword`, Optional arguments.
+    #{NimbleOptions.docs(delete_queue_definition())}
   """
   @spec delete_queue(
           client :: Tesla.Client.t(),
           vhost :: String.t(),
           queue :: String.t(),
-          opts :: Keyword.t()
+          params :: KeyError.t()
         ) ::
           {:ok, Tesla.Env.t()}
+
   def delete_queue(client, vhost, queue, opts \\ []) do
-    # TODO implement
+    case NimbleOptions.validate(opts, delete_queue_definition()) do
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
+
+      {:ok, params} ->
+        params =
+          Enum.reduce(params, [], fn
+            {:if_empty, true}, acc -> Keyword.put(acc, :"if-empty", true)
+            {:if_unused, true}, acc -> Keyword.put(acc, :"if-unused", true)
+            _, acc -> acc
+          end)
+
+        client
+        |> ExRabbitMQAdmin.add_query_middleware(params)
+        |> Tesla.delete("#{@api_namespace}/#{vhost}/#{queue}")
+    end
   end
-
-  @doc """
-  List all bindings for a queue under a virtual host.
-
-  ### Params
-
-    * `client` - Tesla client used to perform the request.
-    * `vhost` - type: `string`, Virtual host for the queue.
-    * `queue` - type: `string`, Name of the queue to get bindings for.
-  """
-  @spec list_queue_bindings(
-          client :: Tesla.Client.t(),
-          vhost :: String.t(),
-          queue :: String.t()
-        ) :: {:ok, Tesla.Env.t()}
-  def list_queue_bindings(client, vhost, queue),
-    do: Tesla.get(client, "#{@api_namespace}/#{vhost}/#{queue}/bindings")
 
   @doc """
   Purge all messages on a queue under a virtual host.
@@ -196,10 +220,9 @@ defmodule ExRabbitMQAdmin.Queue do
       {:error, error} ->
         raise ArgumentError, format_error(error)
 
-      {:ok, opts} ->
+      {:ok, params} ->
         client
-        |> ExRabbitMQAdmin.add_query_middleware(opts)
-        |> Tesla.post("#{@api_namespace}/#{vhost}/#{queue}/get")
+        |> Tesla.post("#{@api_namespace}/#{vhost}/#{queue}/get", Enum.into(params, %{}))
     end
   end
 end

@@ -91,6 +91,8 @@ defmodule ExRabbitMQAdmin.Client do
       def add_query_middleware(client, [{key, _} | _] = params) when is_atom(key),
         do: query_middleware(client, params) |> Tesla.client()
 
+      def add_query_middleware(client, []), do: client
+
       def add_query_middleware(client, param, value) when is_atom(param),
         do: add_query_middleware(client, [{param, value}])
 

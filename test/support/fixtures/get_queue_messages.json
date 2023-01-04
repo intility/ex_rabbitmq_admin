@@ -1,0 +1,17 @@
+[
+  {
+    "payload_bytes": 27,
+    "redelivered": false,
+    "exchange": "amq.direct",
+    "routing_key": "my-queue-routing-key",
+    "message_count": 48999,
+    "properties": {
+      "delivery_mode": 1,
+      "headers": {
+        "x-delivery-count": 0
+      }
+    },
+    "payload": "{\"message\":\"Hello, world!\"}",
+    "payload_encoding": "string"
+  }
+]

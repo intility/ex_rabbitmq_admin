@@ -1,10 +1,7 @@
 defmodule ExRabbitMQAdmin.Options do
-  @moduledoc """
-  This module contains parameter validation rules.
-  """
+  @moduledoc false
   alias NimbleOptions.ValidationError
 
-  @doc false
   def pagination_definition do
     [
       page: [
@@ -37,7 +34,6 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
-  @doc false
   def put_user_definition do
     [
       password: [
@@ -61,7 +57,6 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
-  @doc false
   def put_vhost_definition do
     [
       description: [
@@ -81,7 +76,6 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
-  @doc false
   def put_vhost_permissions do
     [
       configure: [
@@ -114,7 +108,6 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
-  @doc false
   def receive_messages_definition do
     [
       count: [
@@ -123,7 +116,6 @@ defmodule ExRabbitMQAdmin.Options do
         cannot immediately provide them.
         """,
         type: :pos_integer,
-        required: true,
         default: 1
       ],
       ackmode: [
@@ -148,7 +140,6 @@ defmodule ExRabbitMQAdmin.Options do
         base64 encoded otherwise. If set to `base64` message payload will always be base64 encoded.
         """,
         type: {:in, [:auto, :base64]},
-        required: true,
         default: :auto
       ],
       truncate: [
@@ -160,8 +151,7 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
-  @doc false
-  defp put_queue_definition do
+  def put_queue_definition do
     [
       auto_delete: [
         doc: """
@@ -177,11 +167,47 @@ defmodule ExRabbitMQAdmin.Options do
         """,
         type: :boolean,
         default: true
+      ],
+      node: [
+        doc: """
+        If set, start the queue on given node name.
+        """,
+        type: :string,
+        required: false
+      ],
+      arguments: [
+        doc: """
+        Optional queue arguments (x-arguments) passed to RabbitMQ when creating the queue.
+        Please consult the official documentation for supported arguments (as they vary for
+        queue type and installed plugins).
+        """,
+        type: {:map, :string, :any},
+        required: false
       ]
     ]
   end
 
-  @doc false
+  def delete_queue_definition do
+    [
+      if_empty: [
+        doc: """
+        If true, prevent deleting the queue if it contains any messages.
+        This option is not supported by `quorum` queues.
+        """,
+        type: :boolean,
+        required: false
+      ],
+      if_unused: [
+        doc: """
+        If true, prevent deleting the queue if it has any consumers.
+        This option is not supported by `quorum` queues.
+        """,
+        type: :boolean,
+        required: false
+      ]
+    ]
+  end
+
   def format_error(%ValidationError{keys_path: [], message: message}), do: message
 
   def format_error(%ValidationError{keys_path: keys_path, message: message}) do
