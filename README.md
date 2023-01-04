@@ -1,11 +1,29 @@
 # ExRabbitMQAdmin
 
+![pipeline status](https://github.com/Intility/ex_rabbitmq_admin/actions/workflows/elixir.yaml/badge.svg?event=push)
+
 Simple client library for the RabbitMQ [HTTP API](https://www.rabbitmq.com/management.html#http-api),
 built on [Tesla](https://github.com/elixir-tesla/tesla).
 
+Read the full documentation [here](https://hexdocs.pm/ex_rabbitmq_admin/readme.html).
+
+### Supported functionality
+
+- [ ] Basic information endpoints (listing connections, channels, nodes, and so on)
+- [x] Client adapter configuration
+- [x] User management endpoints
+- [x] Virtual host endpoints
+- [x] Queue endpoints
+- [ ] Exchange endpoints
+- [ ] Bindings endpoints
+- [ ] Parameters
+- [ ] Policies endpoints
+- [ ] Operator endpoints
+- [ ] Health check endpoints
+
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+This package is [available in Hex](https://hex.pm/packages/ex_rabbitmq_admin), and can be installed
 by adding `ex_rabbitmq_admin` to your list of dependencies in `mix.exs`:
 
 ```elixir
@@ -15,10 +33,6 @@ def deps do
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/ex_rabbitmq_admin>.
 
 ### Example usage
 
@@ -64,5 +78,5 @@ The RabbitMQ HTTP API documentation is available [here](https://rawcdn.githack.c
 ### Running the test suite
 
 ```shell
-$ MIX_ENV=test mix coveralls.html
+$ mix coveralls.html
 ```
