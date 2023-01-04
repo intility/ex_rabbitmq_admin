@@ -17,7 +17,7 @@ defmodule ExRabbitMQAdmin.MixProject do
       package: [
         name: "ex_rabbitmq_admin",
         maintainers: ["Rolf Håvard Blindheim <rolf.havard.blindheim@intility.no>"],
-        licenses: ["Apache-2.0"],
+        licenses: ["MIT"],
         links: %{GitHub: @source_url}
       ],
       docs: [
