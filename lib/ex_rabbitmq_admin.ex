@@ -4,7 +4,8 @@ defmodule ExRabbitMQAdmin do
 
   ### Configuration
 
-  Some options, such as e.g. `base_url` are read from the config.
+  This module uses the `ExRabbitMQAdmin.Client` macro, and can be configured
+  in `config.exs`.
 
       # config.ex
       config :ex_rabbitmq_admin, ExRabbitMQAdmin,

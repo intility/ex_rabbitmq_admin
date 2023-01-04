@@ -4,8 +4,9 @@ defmodule ExRabbitMQAdmin.Client do
 
   ### Configuration
 
-  Some options, such as e.g. `base_url` are read from the config. For each module that
-  uses this macro, add an entry to your `config.exs` as:
+  Some options, such as e.g. `base_url` can be read from config. If you want to use
+  this macro in a module, you can add a corresponding entry in your `config.exs` file
+  to configure the client.
 
       # config.ex
       config :my_app, MyApp.RabbitClient,
@@ -30,6 +31,10 @@ defmodule ExRabbitMQAdmin.Client do
     {:ok, otp_app} = Keyword.fetch(opts, :otp_app)
 
     quote location: :keep do
+      @doc """
+      Returns a `Tesla.Client` with `Tesla.Middleware.BaseUrl`, `Tesla.Middleware.Logger` and
+      `Tesla.Middleware.JSON` middleware configured.
+      """
       @spec client(opts :: Keyword.t()) :: Tesla.Client.t()
       def client, do: Application.get_env(unquote(otp_app), __MODULE__) |> client()
 
@@ -43,6 +48,9 @@ defmodule ExRabbitMQAdmin.Client do
         Tesla.client(middleware)
       end
 
+      @doc """
+      Adds `Tesla.Middleware.BearerAuth` middleware to given `Tesla.Client` middlewares.
+      """
       @spec bearer_auth_middleware(client :: Tesla.Client.t(), opts :: Keyword.t()) :: [
               {Tesla.Middleware.BearerAuth, Keyword.t()}
             ]
@@ -53,19 +61,20 @@ defmodule ExRabbitMQAdmin.Client do
         ]
       end
 
+      @doc """
+      Returns a `Tesla.Client` with `Tesla.Middleware.BearerAuth` middleware configured.
+      """
+      @spec add_bearer_auth_middleware(client :: Tesla.Client.t(), opts :: Keyword.t()) ::
+              Tesla.Client.t()
       def add_bearer_auth_middleware(client, opts),
         do: bearer_auth_middleware(client, opts) |> Tesla.client()
 
+      @doc """
+      Adds `Tesla.Middleware.BasicAuth` middleware to given `Tesla.Client` middlewares.
+      Uses `username` and `password` from keyword opts, or if omitted, read credentials from `config.exs`.
+      """
       @spec basic_auth_middleware(client :: Tesla.Client.t(), opts :: Keyword.t()) ::
               [{Tesla.Middleware.BasicAuth, Keyword.t()}]
-      def basic_auth_middleware(client, opts) when is_list(opts) do
-        [
-          {Tesla.Middleware.BasicAuth,
-           username: client_option(opts, :username), password: client_option(opts, :password)}
-          | Tesla.Client.middleware(client)
-        ]
-      end
-
       def basic_auth_middleware(client) do
         [
           {Tesla.Middleware.BasicAuth,
@@ -74,18 +83,35 @@ defmodule ExRabbitMQAdmin.Client do
         ]
       end
 
+      def basic_auth_middleware(client, opts) when is_list(opts) do
+        [
+          {Tesla.Middleware.BasicAuth,
+           username: client_option(opts, :username), password: client_option(opts, :password)}
+          | Tesla.Client.middleware(client)
+        ]
+      end
+
+      @doc """
+      Returns a `Tesla.Client` with `Tesla.Middleware.BasicAuth` middleware configured.
+      """
       @spec add_basic_auth_middleware(client :: Tesla.Client.t(), opts :: Keyword.t()) ::
               Tesla.Client.t()
+      def add_basic_auth_middleware(client), do: basic_auth_middleware(client) |> Tesla.client()
+
       def add_basic_auth_middleware(client, opts) when is_list(opts),
         do: basic_auth_middleware(client, opts) |> Tesla.client()
 
-      def add_basic_auth_middleware(client), do: basic_auth_middleware(client) |> Tesla.client()
-
+      @doc """
+      Adds `Tesla.Middleware.Query` middleware to given `Tesla.Client` middlewares.
+      """
       @spec query_middleware(client :: Tesla.Client.t(), params :: Keyword.t()) ::
               [{Tesla.Middleware.Query, Keyword.t()}]
       def query_middleware(client, params),
         do: [{Tesla.Middleware.Query, params} | Tesla.Client.middleware(client)]
 
+      @doc """
+      Returns a `Tesla.Client` with `Tesla.Middleware.Query` middleware configured.
+      """
       @spec add_query_middleware(client :: Tesla.Client.t(), params :: Keyword.t()) ::
               Tesla.Client.t()
       def add_query_middleware(client, [{key, _} | _] = params) when is_atom(key),
