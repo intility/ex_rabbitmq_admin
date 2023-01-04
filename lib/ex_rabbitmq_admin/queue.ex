@@ -129,7 +129,7 @@ defmodule ExRabbitMQAdmin.Queue do
           client :: Tesla.Client.t(),
           vhost :: String.t(),
           queue :: String.t(),
-          params :: KeyError.t()
+          params :: Keyword.t()
         ) ::
           {:ok, Tesla.Env.t()}
 
