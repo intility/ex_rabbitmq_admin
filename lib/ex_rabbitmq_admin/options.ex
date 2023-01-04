@@ -8,15 +8,13 @@ defmodule ExRabbitMQAdmin.Options do
         doc: """
         Page number to fetch if paginating the results.
         """,
-        type: :non_neg_integer,
-        default: 1
+        type: :non_neg_integer
       ],
       page_size: [
         doc: """
         Number of elements per page, defaults to 100.
         """,
-        type: :non_neg_integer,
-        default: 100
+        type: :non_neg_integer
       ],
       name: [
         doc: """
@@ -28,8 +26,7 @@ defmodule ExRabbitMQAdmin.Options do
         doc: """
         Enables regular expression for the param `name`.
         """,
-        type: :boolean,
-        default: false
+        type: :boolean
       ]
     ]
   end

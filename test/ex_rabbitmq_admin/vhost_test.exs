@@ -71,11 +71,12 @@ defmodule ExRabbitMQAdmin.VhostTest do
 
     {result, log} =
       with_log(fn ->
-        Client.client() |> Vhost.list_vhost_connections("my-vhost", page: 10, page_size: 50)
+        Client.client()
+        |> Vhost.list_vhost_connections("my-vhost", page: 10, page_size: 50, use_regex: false)
       end)
 
     assert {:ok, %Tesla.Env{status: 200}} = result
-    assert log =~ "Query: use_regex: false\nQuery: page: 10\nQuery: page_size: 50"
+    assert log =~ "Query: page: 10\nQuery: page_size: 50\nQuery: use_regex: false"
 
     assert_raise ArgumentError,
                  "unknown options [:invalid_option], valid options are: [:page, :page_size, :name, :use_regex]",
@@ -91,11 +92,12 @@ defmodule ExRabbitMQAdmin.VhostTest do
 
     {result, log} =
       with_log(fn ->
-        Client.client() |> Vhost.list_vhost_channels("my-vhost", page: 10, page_size: 50)
+        Client.client()
+        |> Vhost.list_vhost_channels("my-vhost", page: 10, page_size: 50, use_regex: false)
       end)
 
     assert {:ok, %Tesla.Env{status: 200}} = result
-    assert log =~ "Query: use_regex: false\nQuery: page: 10\nQuery: page_size: 50"
+    assert log =~ "Query: page: 10\nQuery: page_size: 50\nQuery: use_regex: false"
 
     assert_raise ArgumentError,
                  "unknown options [:invalid_option], valid options are: [:page, :page_size, :name, :use_regex]",
