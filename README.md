@@ -14,7 +14,7 @@ Read the full documentation [here](https://hexdocs.pm/ex_rabbitmq_admin/readme.h
 - [x] User management endpoints
 - [x] Virtual host endpoints
 - [x] Queue endpoints
-- [ ] Exchange endpoints
+- [x] Exchange endpoints
 - [ ] Bindings endpoints
 - [ ] Parameters
 - [ ] Policies endpoints
