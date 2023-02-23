@@ -205,6 +205,97 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  def put_exchange_definition do
+    [
+      arguments: [
+        doc: """
+        Optional exchange arguments passed to RabbitMQ when creating the exchange.
+        Please consult the official documentation for supported arguments (as they can vary
+        for exchange type).
+        """,
+        type: {:map, :string, :any},
+        required: false
+      ],
+      auto_delete: [
+        doc: """
+        If true, the exchange is auto-deleted once the last bound object is unbound from
+        the exchange.
+        """,
+        type: :boolean,
+        default: false
+      ],
+      durable: [
+        doc: """
+        Durable exchanges survives server restarts and lasts until explicitly deleted.
+        """,
+        type: :boolean,
+        default: true
+      ],
+      internal: [
+        doc: """
+        Internal exchanges are meant for internal RabbitMQ tasks only.
+        """,
+        type: :boolean,
+        default: false
+      ],
+      type: [
+        doc: """
+        Exchange types defines how messages are routed by using different parameters and
+        bindings.
+        """,
+        type: {:in, [:direct, :fanout, :headers, :topic]},
+        required: true
+      ]
+    ]
+  end
+
+  def delete_exchange_definition do
+    [
+      if_unused: [
+        doc: """
+        If true, prevent deleting the exchange if it is bound to a queue or acts as a
+        source for another exchange.
+        """,
+        type: :boolean,
+        required: false
+      ]
+    ]
+  end
+
+  def publish_exchange_message_definition do
+    [
+      properties: [
+        doc: """
+        Message properties.
+        """,
+        type: {:map, :string, :any},
+        default: %{}
+      ],
+      routing_key: [
+        doc: """
+        The routing key used to route the message to its destination.
+        """,
+        type: :string,
+        required: true
+      ],
+      payload: [
+        doc: """
+        Message to be sent.
+        """,
+        type: {:or, [:map, :string]},
+        required: true
+      ],
+      payload_encoding: [
+        doc: """
+        If set to `string` the payload will be sent as an UTF-8 encoded string.
+        If `base64`, the message payload should be base64 encoded.
+        """,
+        type: {:in, [:string, :base64]},
+        default: :string
+      ]
+    ]
+  end
+
   def format_error(%ValidationError{keys_path: [], message: message}), do: message
 
   def format_error(%ValidationError{keys_path: keys_path, message: message}) do

@@ -197,10 +197,8 @@ defmodule ExRabbitMQAdmin.Queue do
 
   @doc """
   Receive messages from a queue under a virtual host.
-  Please not that this is **not** an optimal way to consume messages
-  from a queue. Consider using a library like
-  [AMQP](https://hexdocs.pm/amqp/readme.html) for your daily dose
-  of messages.
+  Please not that this is *not* an optimal way to consume messages
+  from a queue. Consider using a library like [AMQP](https://hexdocs.pm/amqp/readme.html).
 
   ### Params
 
