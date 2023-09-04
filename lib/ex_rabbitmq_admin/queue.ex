@@ -24,13 +24,13 @@ defmodule ExRabbitMQAdmin.Queue do
   @spec list_queues(client :: Tesla.Client.t(), opts :: Keyword.t()) :: {:ok, Tesla.Env.t()}
   def list_queues(client, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
-      {:error, error} ->
-        raise ArgumentError, format_error(error)
-
       {:ok, params} ->
         client
         |> ExRabbitMQAdmin.add_query_middleware(params)
-        |> Tesla.get("#{@api_namespace}")
+        |> Tesla.get(@api_namespace)
+
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
     end
   end
 
@@ -47,13 +47,13 @@ defmodule ExRabbitMQAdmin.Queue do
           {:ok, Tesla.Env.t()}
   def list_vhost_queues(client, vhost, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
-      {:error, error} ->
-        raise ArgumentError, format_error(error)
-
       {:ok, params} ->
         client
         |> ExRabbitMQAdmin.add_query_middleware(params)
         |> Tesla.get("#{@api_namespace}/#{vhost}")
+
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
     end
   end
 
@@ -106,12 +106,12 @@ defmodule ExRabbitMQAdmin.Queue do
         ) :: {:ok, Tesla.Env.t()}
   def put_queue(client, vhost, queue, opts \\ []) do
     case NimbleOptions.validate(opts, put_queue_definition()) do
-      {:error, error} ->
-        raise ArgumentError, format_error(error)
-
       {:ok, params} ->
         client
         |> Tesla.put("#{@api_namespace}/#{vhost}/#{queue}", Enum.into(params, %{}))
+
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
     end
   end
 
@@ -130,14 +130,9 @@ defmodule ExRabbitMQAdmin.Queue do
           vhost :: String.t(),
           queue :: String.t(),
           params :: Keyword.t()
-        ) ::
-          {:ok, Tesla.Env.t()}
-
+        ) :: {:ok, Tesla.Env.t()}
   def delete_queue(client, vhost, queue, opts \\ []) do
     case NimbleOptions.validate(opts, delete_queue_definition()) do
-      {:error, error} ->
-        raise ArgumentError, format_error(error)
-
       {:ok, params} ->
         params =
           Enum.reduce(params, [], fn
@@ -149,6 +144,9 @@ defmodule ExRabbitMQAdmin.Queue do
         client
         |> ExRabbitMQAdmin.add_query_middleware(params)
         |> Tesla.delete("#{@api_namespace}/#{vhost}/#{queue}")
+
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
     end
   end
 
@@ -215,12 +213,12 @@ defmodule ExRabbitMQAdmin.Queue do
         ) :: {:ok, Tesla.Env.t()}
   def receive_queue_messages(client, vhost, queue, opts \\ []) do
     case NimbleOptions.validate(opts, receive_messages_definition()) do
-      {:error, error} ->
-        raise ArgumentError, format_error(error)
-
       {:ok, params} ->
         client
         |> Tesla.post("#{@api_namespace}/#{vhost}/#{queue}/get", Enum.into(params, %{}))
+
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
     end
   end
 end
