@@ -1,0 +1,11 @@
+[
+  {
+    "source": "amq.direct",
+    "vhost": "my-vhost",
+    "destination": "my-fine-queue",
+    "destination_type": "queue",
+    "routing_key": "plastic-patas-monkey",
+    "arguments": {},
+    "properties_key": "plastic-patas-monkey"
+  }
+]

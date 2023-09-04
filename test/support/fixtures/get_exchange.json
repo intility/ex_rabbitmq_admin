@@ -1,0 +1,12 @@
+{
+  "arguments": {},
+  "auto_delete": false,
+  "durable": true,
+  "incoming": [],
+  "internal": false,
+  "name": "amq.direct",
+  "outgoing": [],
+  "type": "direct",
+  "user_who_performed_action": "guest",
+  "vhost": "my-vhost"
+}

@@ -19,9 +19,20 @@ defmodule ExRabbitMQAdmin.Exchange do
   ### Params
 
     * `client` - Tesla client used to perform the request.
+    #{NimbleOptions.docs(pagination_definition())}
   """
-  @spec list_exchanges(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()}
-  def list_exchanges(client), do: client |> Tesla.get(@api_namespace)
+  @spec list_exchanges(client :: Tesla.Client.t(), opts :: Keyword.t()) :: {:ok, Tesla.Env.t()}
+  def list_exchanges(client, opts \\ []) do
+    case NimbleOptions.validate(opts, pagination_definition()) do
+      {:ok, params} ->
+        client
+        |> ExRabbitMQAdmin.add_query_middleware(params)
+        |> Tesla.get(@api_namespace)
+
+      {:error, error} ->
+        raise ArgumentError, format_error(error)
+    end
+  end
 
   @doc """
   List all exchanges in a given virtual host. Optionally pass pagination parameters
@@ -110,9 +121,15 @@ defmodule ExRabbitMQAdmin.Exchange do
           name :: String.t(),
           opts :: Keyword.t()
         ) :: {:ok, Tesla.Env.t()}
-  def delete_exchange(client, vhost, name, opts) do
+  def delete_exchange(client, vhost, name, opts \\ []) do
     case NimbleOptions.validate(opts, delete_exchange_definition()) do
       {:ok, params} ->
+        params =
+          Enum.reduce(params, [], fn
+            {:if_unused, true}, acc -> Keyword.put(acc, :"if-unused", true)
+            _, acc -> acc
+          end)
+
         client
         |> ExRabbitMQAdmin.add_query_middleware(params)
         |> Tesla.delete("#{@api_namespace}/#{vhost}/#{name}")

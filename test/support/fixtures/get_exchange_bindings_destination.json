@@ -1,0 +1,11 @@
+[
+  {
+    "source": "amq.direct",
+    "vhost": "my-vhost",
+    "destination": "amq.fanout",
+    "destination_type": "exchange",
+    "routing_key": "unpleasant-hamster",
+    "arguments": {},
+    "properties_key": "unpleasant-hamster"
+  }
+]

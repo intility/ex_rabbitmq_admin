@@ -244,7 +244,7 @@ defmodule ExRabbitMQAdmin.Options do
         bindings.
         """,
         type: {:in, [:direct, :fanout, :headers, :topic]},
-        required: true
+        default: :direct
       ]
     ]
   end
