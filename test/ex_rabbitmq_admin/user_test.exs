@@ -59,7 +59,7 @@ defmodule ExRabbitMQAdmin.UserTest do
       end)
 
     assert {:ok, %Tesla.Env{status: 201}} = result
-    assert log =~ "%{tags: \"moderator\", password_hash:"
+    assert log =~ "%{hashing_algorithm: \"rabbit_password_hashing_sha512\", password_hash:"
 
     {_result, log} =
       with_log(fn ->
