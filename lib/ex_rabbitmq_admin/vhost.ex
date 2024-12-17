@@ -29,16 +29,16 @@ defmodule ExRabbitMQAdmin.Vhost do
   ### Params
 
     * `client` - Tesla client used to perform the request.
-    * `name` - type: `string`, required: `true`
+    * `vhost` - type: `string`, required: `true`
     #{NimbleOptions.docs(pagination_definition())}
   """
   @spec list_vhost_connections(
           client :: Tesla.Client.t(),
-          name :: String.t(),
+          vhost :: String.t(),
           opts :: Keyword.t()
         ) ::
           {:ok, Tesla.Env.t()} | no_return()
-  def list_vhost_connections(client, name, opts \\ []) do
+  def list_vhost_connections(client, vhost, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
       {:error, error} ->
         raise ArgumentError, format_error(error)
@@ -46,7 +46,7 @@ defmodule ExRabbitMQAdmin.Vhost do
       {:ok, opts} ->
         client
         |> ExRabbitMQAdmin.add_query_middleware(opts)
-        |> Tesla.get("#{@api_namespace}/#{name}/connections")
+        |> Tesla.get("#{@api_namespace}/#{vhost}/connections")
     end
   end
 
@@ -57,12 +57,12 @@ defmodule ExRabbitMQAdmin.Vhost do
   ### Params
 
     * `client` - Tesla client used to perform the request.
-    * `name` - type: `string`, required: `true`
+    * `vhost` - type: `string`, required: `true`
     #{NimbleOptions.docs(pagination_definition())}
   """
-  @spec list_vhost_channels(client :: Tesla.Client.t(), name :: String.t(), opts :: Keyword.t()) ::
+  @spec list_vhost_channels(client :: Tesla.Client.t(), vhost :: String.t(), opts :: Keyword.t()) ::
           {:ok, Tesla.Env.t()} | no_return()
-  def list_vhost_channels(client, name, opts \\ []) do
+  def list_vhost_channels(client, vhost, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
       {:error, error} ->
         raise ArgumentError, format_error(error)
@@ -70,7 +70,7 @@ defmodule ExRabbitMQAdmin.Vhost do
       {:ok, opts} ->
         client
         |> ExRabbitMQAdmin.add_query_middleware(opts)
-        |> Tesla.get("#{@api_namespace}/#{name}/connections")
+        |> Tesla.get("#{@api_namespace}/#{vhost}/connections")
     end
   end
 
@@ -80,12 +80,12 @@ defmodule ExRabbitMQAdmin.Vhost do
   ### Params
 
   * `client` - Tesla client used to perform the request.
-  * `name` - type: `string`, The name of the vhost to list permissions for.
+  * `vhost` - type: `string`, The vhost of the vhost to list permissions for.
   """
-  @spec list_vhost_permissions(client :: Tesla.Client.t(), name :: String.t()) ::
+  @spec list_vhost_permissions(client :: Tesla.Client.t(), vhost :: String.t()) ::
           {:ok, Tesla.Env.t()} | {:error, term()}
-  def list_vhost_permissions(client, name),
-    do: client |> Tesla.get("#{@api_namespace}/#{name}/permissions")
+  def list_vhost_permissions(client, vhost),
+    do: client |> Tesla.get("#{@api_namespace}/#{vhost}/permissions")
 
   @doc """
   Set permissions for a user on a specific virtual host.
@@ -98,20 +98,20 @@ defmodule ExRabbitMQAdmin.Vhost do
   ### Params
 
     * `client` - Tesla client used to perform the request.
-    * `name` - type: `string`, The name of the vhost to assign permissions for.
+    * `vhost` - type: `string`, The vhost of the vhost to assign permissions for.
     * `user` - type: `string`, The username to assign permissions for.
     #{NimbleOptions.docs(put_vhost_permissions())}
   """
   @spec put_vhost_permissions(
           client :: Telsa.Client.t(),
-          name :: String.t(),
+          vhost :: String.t(),
           user :: String.t(),
           opts :: Keyword.t()
         ) :: {:ok, Tesla.Env.t()} | no_return()
-  def put_vhost_permissions(client, name, user, opts \\ []) do
+  def put_vhost_permissions(client, vhost, user, opts \\ []) do
     case NimbleOptions.validate(opts, put_vhost_permissions()) do
       {:ok, opts} ->
-        client |> Tesla.put("/api/permissions/#{name}/#{user}", Enum.into(opts, %{}))
+        client |> Tesla.put("/api/permissions/#{vhost}/#{user}", Enum.into(opts, %{}))
 
       {:error, error} ->
         raise ArgumentError, format_error(error)
@@ -125,56 +125,56 @@ defmodule ExRabbitMQAdmin.Vhost do
 
     * `client` - Tesla client used to perform the request.
   """
-  @spec list_vhost_topic_permissions(client :: Tesla.Client.t(), name :: String.t()) ::
+  @spec list_vhost_topic_permissions(client :: Tesla.Client.t(), vhost :: String.t()) ::
           {:ok, Tesla.Env.t() | {:error, term()}}
-  def list_vhost_topic_permissions(client, name),
-    do: client |> Tesla.get("#{@api_namespace}/#{name}/topic-permissions")
+  def list_vhost_topic_permissions(client, vhost),
+    do: client |> Tesla.get("#{@api_namespace}/#{vhost}/topic-permissions")
 
   @doc """
-  Get an individual virtual host by name.
+  Get an individual virtual host by vhost.
 
   ### Params
 
     * `client` - Tesla client used to perform the request.
   """
-  @spec get_vhost(client :: Telsa.Client.t(), name :: String.t()) ::
+  @spec get_vhost(client :: Telsa.Client.t(), vhost :: String.t()) ::
           {:ok, Tesla.Env.t()} | {:error, term()}
-  def get_vhost(client, name) when is_binary(name),
-    do: client |> Tesla.get("#{@api_namespace}/#{name}")
+  def get_vhost(client, vhost) when is_binary(vhost),
+    do: client |> Tesla.get("#{@api_namespace}/#{vhost}")
 
   @doc """
-  Create a new virtual host with given name.
+  Create a new virtual host with given vhost.
 
   ### Params
 
     * `client` - Tesla client used to perform the request.
-    * `name` - type: `string`, required: `true`
+    * `vhost` - type: `string`, required: `true`
     #{NimbleOptions.docs(put_vhost_definition())}
   """
-  @spec put_vhost(client :: Telsa.Client.t(), name :: String.t(), opts :: Keyword.t()) ::
+  @spec put_vhost(client :: Telsa.Client.t(), vhost :: String.t(), opts :: Keyword.t()) ::
           {:ok, Tesla.Env.t()} | no_return()
-  def put_vhost(client, name, opts \\ []) do
+  def put_vhost(client, vhost, opts \\ []) do
     case NimbleOptions.validate(opts, put_vhost_definition()) do
       {:error, error} ->
         raise ArgumentError, format_error(error)
 
       {:ok, opts} ->
         client
-        |> Tesla.put("#{@api_namespace}/#{name}", Enum.into(opts, %{}))
+        |> Tesla.put("#{@api_namespace}/#{vhost}", Enum.into(opts, %{}))
     end
   end
 
   @doc """
-  Delete a specific virtual host by name.
+  Delete a specific virtual host by vhost.
 
   ### Params
 
     * `client` - Tesla client used to perform the request.
-    * `name` - type: `string`, The name of the virtual host that should be deleted.
+    * `vhost` - type: `string`, The vhost of the virtual host that should be deleted.
   """
-  @spec delete_vhost(client :: Tesla.Client.t(), name :: String.t()) ::
+  @spec delete_vhost(client :: Tesla.Client.t(), vhost :: String.t()) ::
           {:ok, Tesla.Env.t()} | {:error, term()}
-  def delete_vhost(client, name), do: client |> Tesla.delete("#{@api_namespace}/#{name}")
+  def delete_vhost(client, vhost), do: client |> Tesla.delete("#{@api_namespace}/#{vhost}")
 
   @doc """
   Start a specific virtual host on given node.
@@ -182,11 +182,11 @@ defmodule ExRabbitMQAdmin.Vhost do
   ### Params
 
     * `client` - Tesla client used to perform the request.
-    * `name` - type: `string`, The name of the virtual host that should be started.
-    * `node` - type: `string`, The name of the node that the virtual host should be started on.
+    * `vhost` - type: `string`, The vhost of the virtual host that should be started.
+    * `node` - type: `string`, The vhost of the node that the virtual host should be started on.
   """
-  @spec start_vhost(client :: Tesla.Client.t(), name :: String.t(), node :: String.t()) ::
+  @spec start_vhost(client :: Tesla.Client.t(), vhost :: String.t(), node :: String.t()) ::
           {:ok, Tesla.Env.t()} | {:error, term()}
-  def start_vhost(client, name, node),
-    do: client |> Tesla.post("#{@api_namespace}/#{name}/start/#{node}", %{})
+  def start_vhost(client, vhost, node),
+    do: client |> Tesla.post("#{@api_namespace}/#{vhost}/start/#{node}", %{})
 end
