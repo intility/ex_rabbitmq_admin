@@ -1,0 +1,20 @@
+[
+    {
+        "arguments": {},
+        "destination": "dumpster-fire",
+        "destination_type": "queue",
+        "properties_key": "dumpster-fire",
+        "routing_key": "dumpster-fire",
+        "source": "",
+        "vhost": "my-vhost"
+    },
+    {
+        "arguments": {},
+        "destination": "dumpster-fire",
+        "destination_type": "queue",
+        "properties_key": "idle-avocet",
+        "routing_key": "idle-avocet",
+        "source": "amq.direct",
+        "vhost": "my-vhost"
+    }
+]

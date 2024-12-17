@@ -296,6 +296,27 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  def create_exchange_binding_definition do
+    [
+      routing_key: [
+        doc: """
+        The routing key used to route the message to its destination.
+        """,
+        type: :string,
+        required: true
+      ],
+      arguments: [
+        doc: """
+        Optional binding arguments passed to RabbitMQ when creating the binding.
+        Please consult the official documentation for supported arguments (as they can vary
+        for exchange type).
+        """,
+        type: {:map, :string, :any},
+        required: false
+      ]
+    ]
+  end
+
   def format_error(%ValidationError{keys_path: [], message: message}), do: message
 
   def format_error(%ValidationError{keys_path: keys_path, message: message}) do

@@ -18,7 +18,7 @@ Read the full documentation [here](https://hexdocs.pm/ex_rabbitmq_admin/readme.h
 - [x] Virtual host endpoints
 - [x] Queue endpoints
 - [x] Exchange endpoints
-- [ ] Bindings endpoints
+- [x] Bindings endpoints
 - [ ] Parameters
 - [ ] Policies endpoints
 - [ ] Operator endpoints

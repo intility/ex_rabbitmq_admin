@@ -1,7 +1,7 @@
 defmodule ExRabbitMQAdmin.MixProject do
   use Mix.Project
 
-  @version "0.1.3"
+  @version "0.1.4"
   @description "A Http client library for RabbitMQ Web API"
   @source_url "https://github.com/Intility/ex_rabbitmq_admin"
 
@@ -50,7 +50,7 @@ defmodule ExRabbitMQAdmin.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.30", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.35", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.18", only: :test},
       {:hackney, "~> 1.18", optional: true},
       {:jason, "~> 1.4"},
