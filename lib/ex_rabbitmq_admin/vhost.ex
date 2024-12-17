@@ -19,7 +19,7 @@ defmodule ExRabbitMQAdmin.Vhost do
 
     * `client` - Tesla client used to perform the request.
   """
-  @spec list_vhosts(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()}
+  @spec list_vhosts(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()} | {:error, term()}
   def list_vhosts(client), do: client |> Tesla.get(@api_namespace)
 
   @doc """
@@ -37,7 +37,7 @@ defmodule ExRabbitMQAdmin.Vhost do
           name :: String.t(),
           opts :: Keyword.t()
         ) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | no_return()
   def list_vhost_connections(client, name, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
       {:error, error} ->
@@ -61,7 +61,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     #{NimbleOptions.docs(pagination_definition())}
   """
   @spec list_vhost_channels(client :: Tesla.Client.t(), name :: String.t(), opts :: Keyword.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | no_return()
   def list_vhost_channels(client, name, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
       {:error, error} ->
@@ -83,7 +83,7 @@ defmodule ExRabbitMQAdmin.Vhost do
   * `name` - type: `string`, The name of the vhost to list permissions for.
   """
   @spec list_vhost_permissions(client :: Tesla.Client.t(), name :: String.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def list_vhost_permissions(client, name),
     do: client |> Tesla.get("#{@api_namespace}/#{name}/permissions")
 
@@ -107,7 +107,7 @@ defmodule ExRabbitMQAdmin.Vhost do
           name :: String.t(),
           user :: String.t(),
           opts :: Keyword.t()
-        ) :: {:ok, Tesla.Env.t()} | ArgumentError
+        ) :: {:ok, Tesla.Env.t()} | no_return()
   def put_vhost_permissions(client, name, user, opts \\ []) do
     case NimbleOptions.validate(opts, put_vhost_permissions()) do
       {:ok, opts} ->
@@ -126,7 +126,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     * `client` - Tesla client used to perform the request.
   """
   @spec list_vhost_topic_permissions(client :: Tesla.Client.t(), name :: String.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t() | {:error, term()}}
   def list_vhost_topic_permissions(client, name),
     do: client |> Tesla.get("#{@api_namespace}/#{name}/topic-permissions")
 
@@ -137,7 +137,8 @@ defmodule ExRabbitMQAdmin.Vhost do
 
     * `client` - Tesla client used to perform the request.
   """
-  @spec get_vhost(client :: Telsa.Client.t(), name :: String.t()) :: {:ok, Tesla.Env.t()}
+  @spec get_vhost(client :: Telsa.Client.t(), name :: String.t()) ::
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def get_vhost(client, name) when is_binary(name),
     do: client |> Tesla.get("#{@api_namespace}/#{name}")
 
@@ -151,7 +152,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     #{NimbleOptions.docs(put_vhost_definition())}
   """
   @spec put_vhost(client :: Telsa.Client.t(), name :: String.t(), opts :: Keyword.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | no_return()
   def put_vhost(client, name, opts \\ []) do
     case NimbleOptions.validate(opts, put_vhost_definition()) do
       {:error, error} ->
@@ -171,7 +172,8 @@ defmodule ExRabbitMQAdmin.Vhost do
     * `client` - Tesla client used to perform the request.
     * `name` - type: `string`, The name of the virtual host that should be deleted.
   """
-  @spec delete_vhost(client :: Tesla.Client.t(), name :: String.t()) :: {:ok, Tesla.Env.t()}
+  @spec delete_vhost(client :: Tesla.Client.t(), name :: String.t()) ::
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def delete_vhost(client, name), do: client |> Tesla.delete("#{@api_namespace}/#{name}")
 
   @doc """
@@ -184,7 +186,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     * `node` - type: `string`, The name of the node that the virtual host should be started on.
   """
   @spec start_vhost(client :: Tesla.Client.t(), name :: String.t(), node :: String.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def start_vhost(client, name, node),
     do: client |> Tesla.post("#{@api_namespace}/#{name}/start/#{node}", %{})
 end

@@ -21,7 +21,8 @@ defmodule ExRabbitMQAdmin.Exchange do
     * `client` - Tesla client used to perform the request.
     #{NimbleOptions.docs(pagination_definition())}
   """
-  @spec list_exchanges(client :: Tesla.Client.t(), opts :: Keyword.t()) :: {:ok, Tesla.Env.t()}
+  @spec list_exchanges(client :: Tesla.Client.t(), opts :: Keyword.t()) ::
+          {:ok, Tesla.Env.t()} | no_return()
   def list_exchanges(client, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
       {:ok, params} ->
@@ -48,7 +49,7 @@ defmodule ExRabbitMQAdmin.Exchange do
           client :: Tesla.Client.t(),
           vhost :: String.t(),
           opts :: Keyword.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | no_return()
   def list_vhost_exchanges(client, vhost, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
       {:ok, params} ->
@@ -74,7 +75,7 @@ defmodule ExRabbitMQAdmin.Exchange do
           client :: Tesla.Client.t(),
           vhost :: String.t(),
           name :: String.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | no_return()
   def get_exchange(client, vhost, name),
     do: client |> Tesla.get("#{@api_namespace}/#{vhost}/#{name}")
 
@@ -93,7 +94,7 @@ defmodule ExRabbitMQAdmin.Exchange do
           vhost :: String.t(),
           name :: String.t(),
           opts :: Keyword.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | no_return()
   def put_exchange(client, vhost, name, opts \\ []) do
     case NimbleOptions.validate(opts, put_exchange_definition()) do
       {:ok, params} ->
@@ -120,7 +121,7 @@ defmodule ExRabbitMQAdmin.Exchange do
           vhost :: String.t(),
           name :: String.t(),
           opts :: Keyword.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | no_return()
   def delete_exchange(client, vhost, name, opts \\ []) do
     case NimbleOptions.validate(opts, delete_exchange_definition()) do
       {:ok, params} ->
@@ -152,7 +153,7 @@ defmodule ExRabbitMQAdmin.Exchange do
           client :: Tesla.Client.t(),
           vhost :: String.t(),
           name :: String.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
   def list_exchange_src_bindings(client, vhost, name),
     do: client |> Tesla.get("#{@api_namespace}/#{vhost}/#{name}/bindings/source")
 
@@ -169,7 +170,7 @@ defmodule ExRabbitMQAdmin.Exchange do
           client :: Tesla.Client.t(),
           vhost :: String.t(),
           name :: String.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
   def list_exchange_dest_bindings(client, vhost, name),
     do: client |> Tesla.get("#{@api_namespace}/#{vhost}/#{name}/bindings/destination")
 
@@ -194,7 +195,7 @@ defmodule ExRabbitMQAdmin.Exchange do
   ```
   """
   @spec publish_message(client :: Tesla.Client.t(), vhost :: String.t(), name :: String.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | no_return()
   def publish_message(client, vhost, name, opts \\ []) do
     case NimbleOptions.validate(opts, publish_exchange_message_definition()) do
       {:ok, params} ->

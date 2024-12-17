@@ -19,7 +19,7 @@ defmodule ExRabbitMQAdmin.User do
 
     * `client` - Tesla client used to perform the request.
   """
-  @spec list_users(client :: Tesla.Client.t()) :: {:ok, Telsa.Env.t()}
+  @spec list_users(client :: Tesla.Client.t()) :: {:ok, Telsa.Env.t()} | {:error, term()}
   def list_users(client), do: client |> Tesla.get(@api_namespace)
 
   @doc """
@@ -30,7 +30,8 @@ defmodule ExRabbitMQAdmin.User do
     * `client` - Tesla client used to perform the request.
     * `user` - type: `string`, required: `true`
   """
-  @spec get_user(client :: Tesla.Client.t(), user :: String.t()) :: {:ok, Tesla.Env.t()}
+  @spec get_user(client :: Tesla.Client.t(), user :: String.t()) ::
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def get_user(client, user), do: client |> Tesla.get("#{@api_namespace}/#{user}")
 
   @doc """
@@ -47,7 +48,7 @@ defmodule ExRabbitMQAdmin.User do
     #{NimbleOptions.docs(put_user_definition())}
   """
   @spec put_user(client :: Tesla.Client.t(), user :: String.t(), opts :: Keyword.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | no_return()
   def put_user(client, user, opts) do
     with {:ok, opts} <- NimbleOptions.validate(opts, put_user_definition()),
          {:ok, password} <- Keyword.fetch(opts, :password),
@@ -85,7 +86,8 @@ defmodule ExRabbitMQAdmin.User do
     * `client` - Tesla client used to perform the request.
     * `user` - type: `string`, required: `true`
   """
-  @spec delete_user(client :: Tesla.Client.t(), user :: String.t()) :: {:ok, Tesla.Env.t()}
+  @spec delete_user(client :: Tesla.Client.t(), user :: String.t()) ::
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def delete_user(client, user), do: client |> Tesla.delete("#{@api_namespace}/#{user}")
 
   @doc """
@@ -96,7 +98,7 @@ defmodule ExRabbitMQAdmin.User do
     * `client` - Tesla client used to perform the request.
   """
   @spec bulk_delete_users(client :: Tesla.Client.t(), users :: [String.t()]) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def bulk_delete_users(client, [user | _rest] = users) when is_binary(user),
     do: client |> Tesla.post("#{@api_namespace}/bulk-delete", %{"users" => users})
 
@@ -107,7 +109,8 @@ defmodule ExRabbitMQAdmin.User do
 
     * `client` - Tesla client used to perform the request.
   """
-  @spec list_users_without_permissions(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()}
+  @spec list_users_without_permissions(client :: Tesla.Client.t()) ::
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def list_users_without_permissions(client),
     do: client |> Tesla.get("#{@api_namespace}/without-permissions")
 
@@ -120,7 +123,7 @@ defmodule ExRabbitMQAdmin.User do
     * `user` - type: `string`, required: `true`
   """
   @spec get_user_permissions(client :: Tesla.Client.t(), user :: String.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def get_user_permissions(client, user),
     do: client |> Tesla.get("#{@api_namespace}/#{user}/permissions")
 
@@ -133,7 +136,7 @@ defmodule ExRabbitMQAdmin.User do
     * `user` - type: `string`, required: `true`
   """
   @spec get_user_topic_permissions(client :: Tesla.Client.t(), user :: String.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def get_user_topic_permissions(client, user),
     do: client |> Tesla.get("#{@api_namespace}/#{user}/topic-permissions")
 

@@ -21,7 +21,8 @@ defmodule ExRabbitMQAdmin.Queue do
     * `client` - Tesla client used to perform the request.
     #{NimbleOptions.docs(pagination_definition())}
   """
-  @spec list_queues(client :: Tesla.Client.t(), opts :: Keyword.t()) :: {:ok, Tesla.Env.t()}
+  @spec list_queues(client :: Tesla.Client.t(), opts :: Keyword.t()) ::
+          {:ok, Tesla.Env.t()} | no_return()
   def list_queues(client, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
       {:ok, params} ->
@@ -44,7 +45,7 @@ defmodule ExRabbitMQAdmin.Queue do
     #{NimbleOptions.docs(pagination_definition())}
   """
   @spec list_vhost_queues(client :: Tesla.Client.t(), vhost :: String.t(), opts :: Keyword.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | no_return()
   def list_vhost_queues(client, vhost, opts \\ []) do
     case NimbleOptions.validate(opts, pagination_definition()) do
       {:ok, params} ->
@@ -70,7 +71,7 @@ defmodule ExRabbitMQAdmin.Queue do
           client :: Tesla.Client.t(),
           vhost :: String.t(),
           queue :: String.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
   def list_queue_bindings(client, vhost, queue),
     do: Tesla.get(client, "#{@api_namespace}/#{vhost}/#{queue}/bindings")
 
@@ -84,7 +85,7 @@ defmodule ExRabbitMQAdmin.Queue do
     * `queue` - type: `string`, Name of the queue to get.
   """
   @spec get_queue(client :: Tesla.Client.t(), vhost :: String.t(), queue :: String.t()) ::
-          {:ok, Tesla.Env.t()}
+          {:ok, Tesla.Env.t()} | {:error, term()}
   def get_queue(client, vhost, queue),
     do: Tesla.get(client, "#{@api_namespace}/#{vhost}/#{queue}")
 
@@ -103,7 +104,7 @@ defmodule ExRabbitMQAdmin.Queue do
           vhost :: String.t(),
           queue :: String.t(),
           opts :: Keyword.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | no_return()
   def put_queue(client, vhost, queue, opts \\ []) do
     case NimbleOptions.validate(opts, put_queue_definition()) do
       {:ok, params} ->
@@ -130,7 +131,7 @@ defmodule ExRabbitMQAdmin.Queue do
           vhost :: String.t(),
           queue :: String.t(),
           params :: Keyword.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | no_return()
   def delete_queue(client, vhost, queue, opts \\ []) do
     case NimbleOptions.validate(opts, delete_queue_definition()) do
       {:ok, params} ->
@@ -163,7 +164,7 @@ defmodule ExRabbitMQAdmin.Queue do
           client :: Tesla.Client.t(),
           vhost :: String.t(),
           queue :: String.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
   def purge_queue(client, vhost, queue),
     do: Tesla.delete(client, "#{@api_namespace}/#{vhost}/#{queue}/contents")
 
@@ -182,7 +183,7 @@ defmodule ExRabbitMQAdmin.Queue do
           vhost :: String.t(),
           queue :: String.t(),
           action :: :sync | :cancel_sync
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
   def perform_queue_action(client, vhost, queue, :sync) do
     Tesla.post(client, "#{@api_namespace}/#{vhost}/#{queue}/actions", %{"action" => "sync"})
   end
@@ -210,7 +211,7 @@ defmodule ExRabbitMQAdmin.Queue do
           vhost :: String.t(),
           queue :: String.t(),
           opts :: Keyword.t()
-        ) :: {:ok, Tesla.Env.t()}
+        ) :: {:ok, Tesla.Env.t()} | no_return()
   def receive_queue_messages(client, vhost, queue, opts \\ []) do
     case NimbleOptions.validate(opts, receive_messages_definition()) do
       {:ok, params} ->
