@@ -191,7 +191,7 @@ defmodule ExRabbitMQAdmin.ExchangeTest do
              )
 
     assert_raise ArgumentError,
-                 "required :routing_key option not found, received options: [:properties, :payload]",
+                 "required :routing_key option not found, received options: [:payload]",
                  fn ->
                    Client.client()
                    |> Exchange.publish_message("my-vhost", "amq.direct", payload: "Hello, world!")
