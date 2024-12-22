@@ -1,7 +1,5 @@
 defmodule ExRabbitMQAdmin.QueueTest do
   use ExRabbitMQAdmin.TestCase, async: true
-  import ExUnit.CaptureLog
-
   alias ExRabbitMQAdmin.Queue
 
   setup do

@@ -1,7 +1,5 @@
 defmodule ExRabbitMQAdmin.ExchangeTest do
   use ExRabbitMQAdmin.TestCase, async: true
-  import ExUnit.CaptureLog
-
   alias ExRabbitMQAdmin.Exchange
 
   setup do

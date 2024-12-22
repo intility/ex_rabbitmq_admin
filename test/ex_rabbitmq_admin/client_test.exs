@@ -63,7 +63,6 @@ defmodule ExRabbitMQAdminTest.Client do
                | _rest
              ]
            } =
-             client =
              Client.client()
              |> Client.add_query_middleware(foo: "bar", baz: "qux")
   end
