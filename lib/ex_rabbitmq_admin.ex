@@ -27,4 +27,28 @@ defmodule ExRabbitMQAdmin do
 
   use ExRabbitMQAdmin.Client,
     otp_app: :ex_rabbitmq_admin
+
+  @doc """
+  Get various bits of infroamtion about the RabbitMQ cluster.
+  """
+  @spec overview(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def overview(client), do: Tesla.get(client, "/api/overview")
+
+  @doc """
+  Get the name of the RabbitMQ cluster.
+  """
+  @spec cluster_name(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def cluster_name(client), do: Tesla.get(client, "/api/cluster-name")
+
+  @doc """
+  Get a list of extensions to the management plugin.
+  """
+  @spec extensions(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def extensions(client), do: Tesla.get(client, "/api/extensions")
+
+  @doc """
+  Get details of the currently authenticated user.
+  """
+  @spec whoami(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def whoami(client), do: Tesla.get(client, "/api/whoami")
 end
