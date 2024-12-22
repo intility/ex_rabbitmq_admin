@@ -317,6 +317,25 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  def get_node_definition do
+    [
+      memory: [
+        doc: """
+        If true, include memory statistics in the response.
+        """,
+        type: :boolean,
+        default: false
+      ],
+      binary: [
+        doc: """
+        If true, include binary statistics in the response.
+        """,
+        type: :boolean,
+        default: false
+      ]
+    ]
+  end
+
   def format_error(%ValidationError{keys_path: [], message: message}), do: message
 
   def format_error(%ValidationError{keys_path: keys_path, message: message}) do
