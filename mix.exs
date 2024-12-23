@@ -14,6 +14,9 @@ defmodule ExRabbitMQAdmin.MixProject do
       start_permanent: Mix.env() == :prod,
       description: @description,
       deps: deps(),
+      dialyzer: [
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+      ],
       package: [
         name: "ex_rabbitmq_admin",
         maintainers: ["Rolf Håvard Blindheim <rolf.havard.blindheim@intility.no>"],
@@ -50,7 +53,9 @@ defmodule ExRabbitMQAdmin.MixProject do
 
   defp deps do
     [
+      {:credo, "~> 1.7", only: [:dev, :test]},
       {:ex_doc, "~> 0.35", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.18", only: :test},
       {:hackney, "~> 1.18", optional: true},
       {:jason, "~> 1.4"},
