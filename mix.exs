@@ -55,7 +55,7 @@ defmodule ExRabbitMQAdmin.MixProject do
     [
       {:credo, "~> 1.7", only: [:dev, :test]},
       {:ex_doc, "~> 0.35", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
+      {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.18", only: :test},
       {:hackney, "~> 1.18", optional: true},
       {:jason, "~> 1.4"},
