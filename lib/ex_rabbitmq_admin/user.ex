@@ -19,7 +19,7 @@ defmodule ExRabbitMQAdmin.User do
 
     * `client` - Tesla client used to perform the request.
   """
-  @spec list_users(client :: Tesla.Client.t()) :: {:ok, Telsa.Env.t()} | {:error, term()}
+  @spec list_users(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()} | {:error, term()}
   def list_users(client), do: client |> Tesla.get(@api_namespace)
 
   @doc """

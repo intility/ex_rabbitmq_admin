@@ -103,7 +103,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     #{NimbleOptions.docs(put_vhost_permissions())}
   """
   @spec put_vhost_permissions(
-          client :: Telsa.Client.t(),
+          client :: Tesla.Client.t(),
           vhost :: String.t(),
           user :: String.t(),
           opts :: Keyword.t()
@@ -137,7 +137,7 @@ defmodule ExRabbitMQAdmin.Vhost do
 
     * `client` - Tesla client used to perform the request.
   """
-  @spec get_vhost(client :: Telsa.Client.t(), vhost :: String.t()) ::
+  @spec get_vhost(client :: Tesla.Client.t(), vhost :: String.t()) ::
           {:ok, Tesla.Env.t()} | {:error, term()}
   def get_vhost(client, vhost) when is_binary(vhost),
     do: client |> Tesla.get("#{@api_namespace}/#{vhost}")
@@ -151,7 +151,7 @@ defmodule ExRabbitMQAdmin.Vhost do
     * `vhost` - type: `string`, required: `true`
     #{NimbleOptions.docs(put_vhost_definition())}
   """
-  @spec put_vhost(client :: Telsa.Client.t(), vhost :: String.t(), opts :: Keyword.t()) ::
+  @spec put_vhost(client :: Tesla.Client.t(), vhost :: String.t(), opts :: Keyword.t()) ::
           {:ok, Tesla.Env.t()} | no_return()
   def put_vhost(client, vhost, opts \\ []) do
     case NimbleOptions.validate(opts, put_vhost_definition()) do
