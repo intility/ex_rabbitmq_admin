@@ -1,0 +1,37 @@
+[
+  {
+    "configure": ".*",
+    "read": ".*",
+    "user": "guest",
+    "vhost": "/",
+    "write": ".*"
+  },
+  {
+    "configure": ".*",
+    "read": ".*",
+    "user": "guest",
+    "vhost": "my-vhost",
+    "write": ".*"
+  },
+  {
+    "configure": "(^$)",
+    "read": "(^amq\\.direct|.*)",
+    "user": "testuser",
+    "vhost": "my-vhost",
+    "write": "(^$)"
+  },
+  {
+    "configure": ".*",
+    "read": ".*",
+    "user": "guest",
+    "vhost": "test",
+    "write": ".*"
+  },
+  {
+    "configure": "(^amq\\.direct|.*)",
+    "read": "(^amq\\.direct|.*)",
+    "user": "testuser",
+    "vhost": "test",
+    "write": "(^amq\\.direct|.*)"
+  }
+]
