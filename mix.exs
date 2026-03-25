@@ -1,7 +1,7 @@
 defmodule ExRabbitMQAdmin.MixProject do
   use Mix.Project
 
-  @version "0.1.4"
+  @version "0.1.4" # x-release-please-version
   @description "A Http client library for RabbitMQ Web API"
   @source_url "https://github.com/Intility/ex_rabbitmq_admin"
 
@@ -32,8 +32,13 @@ defmodule ExRabbitMQAdmin.MixProject do
           "LICENSE"
         ]
       ],
-      test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
+      test_coverage: [tool: ExCoveralls]
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: [
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,

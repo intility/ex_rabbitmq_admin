@@ -1,4 +1,8 @@
 defmodule ExRabbitMQAdmin.Definition do
+  @moduledoc """
+  Functions for interacting with RabbitMQ server and virtual host definitions.
+  """
+
   @api_namespace "/api/definitions"
 
   @doc """

@@ -1,7 +1,9 @@
 defmodule ExRabbitMQAdmin.TestCase do
+  @moduledoc false
   use ExUnit.CaseTemplate
 
   defmodule Client do
+    @moduledoc false
     use ExRabbitMQAdmin.Client, otp_app: :ex_rabbitmq_admin
   end
 
