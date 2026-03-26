@@ -1,4 +1,4 @@
-![Elixir CI](https://github.com/Intility/ex_rabbitmq_admin/actions/workflows/elixir.yaml/badge.svg?event=push)
+[![Test](https://github.com/intility/ex_rabbitmq_admin/actions/workflows/test.yaml/badge.svg)](https://github.com/intility/ex_rabbitmq_admin/actions/workflows/test.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Hex version badge](https://img.shields.io/hexpm/v/ex_rabbitmq_admin.svg)](https://hex.pm/packages/ex_rabbitmq_admin)
 [![Hexdocs badge](https://img.shields.io/badge/docs-hexdocs-purple)](https://hexdocs.pm/ex_rabbitmq_admin/readme.html)
