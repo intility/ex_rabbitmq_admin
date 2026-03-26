@@ -2,7 +2,7 @@ defmodule ExRabbitMQAdmin.MixProject do
   use Mix.Project
 
   # x-release-please-version
-  @version "0.1.4"
+  @version "0.2.0"
   @description "A Http client library for RabbitMQ Web API"
   @source_url "https://github.com/Intility/ex_rabbitmq_admin"
 
