@@ -15,6 +15,9 @@ defmodule ExRabbitMQAdmin.VhostTest do
       %{method: :get, url: "https://rabbitmq.example.com:5672/api/vhosts/my-vhost/connections"} ->
         %Tesla.Env{status: 200}
 
+      %{method: :get, url: "https://rabbitmq.example.com:5672/api/vhosts/my-vhost/channels"} ->
+        %Tesla.Env{status: 200}
+
       %{method: :get, url: "https://rabbitmq.example.com:5672/api/vhosts/my-vhost/permissions"} ->
         %Tesla.Env{status: 200, body: read_json("get_vhost_permissions.json")}
 
@@ -131,6 +134,13 @@ defmodule ExRabbitMQAdmin.VhostTest do
                read: ".*",
                write: ".*"
              )
+  end
+
+  test "raises ArgumentError when putting vhost permissions with invalid opts" do
+    assert_raise ArgumentError, fn ->
+      Client.client()
+      |> Vhost.put_vhost_permissions("my-vhost", "testuser", invalid_opt: true)
+    end
   end
 
   test "can list vhost topic permissions" do

@@ -12,17 +12,24 @@ Read the full documentation [here](https://hexdocs.pm/ex_rabbitmq_admin/readme.h
 
 ### Supported functionality
 
-- [ ] Basic information endpoints (listing connections, channels, nodes, and so on)
 - [x] Client adapter configuration
+- [x] Overview, cluster name, extensions, whoami, queue rebalancing
+- [x] Connection and channel endpoints
+- [x] Consumer endpoints
+- [x] Node endpoints
 - [x] User management endpoints
 - [x] Virtual host endpoints
+- [x] Permission and topic permission endpoints
 - [x] Queue endpoints
 - [x] Exchange endpoints
-- [x] Bindings endpoints
-- [ ] Parameters
-- [ ] Policies endpoints
-- [ ] Operator endpoints
-- [ ] Health check endpoints
+- [x] Binding endpoints
+- [x] Parameter and global parameter endpoints
+- [x] Policy and operator policy endpoints
+- [x] User limit and vhost limit endpoints
+- [x] Health check endpoints
+- [x] Definition export and import endpoints
+- [x] Federation link endpoints
+- [x] Auth endpoints
 
 ## Installation
 
