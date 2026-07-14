@@ -2,7 +2,6 @@ defmodule ExRabbitMQAdmin.Permission do
   @moduledoc """
   This module contains functions for interacting with RabbitMQ permissions.
   """
-  require Logger
 
   import ExRabbitMQAdmin.Options,
     only: [put_vhost_permissions: 0, format_error: 1]

@@ -75,6 +75,32 @@ defmodule ExRabbitMQAdmin.Binding do
   end
 
   @doc """
+  Get an individual binding between an exchange and a queue.
+  """
+  @spec get_exchange_queue_binding(
+          client :: Tesla.Client.t(),
+          vhost :: String.t(),
+          exchange :: String.t(),
+          queue :: String.t(),
+          props :: String.t()
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def get_exchange_queue_binding(client, vhost, exchange, queue, props),
+    do: Tesla.get(client, "#{@api_namespace}/#{vhost}/e/#{exchange}/q/#{queue}/#{props}")
+
+  @doc """
+  Delete a binding between an exchange and a queue.
+  """
+  @spec delete_exchange_queue_binding(
+          client :: Tesla.Client.t(),
+          vhost :: String.t(),
+          exchange :: String.t(),
+          queue :: String.t(),
+          props :: String.t()
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def delete_exchange_queue_binding(client, vhost, exchange, queue, props),
+    do: Tesla.delete(client, "#{@api_namespace}/#{vhost}/e/#{exchange}/q/#{queue}/#{props}")
+
+  @doc """
   List all bindings between two exchanges in a given virtual host.
   """
   @spec list_exchange_exchange_bindings(
@@ -116,4 +142,30 @@ defmodule ExRabbitMQAdmin.Binding do
         |> Tesla.post("#{@api_namespace}/#{vhost}/e/#{src}/e/#{dest}", Enum.into(params, %{}))
     end
   end
+
+  @doc """
+  Get an individual binding between two exchanges.
+  """
+  @spec get_exchange_exchange_binding(
+          client :: Tesla.Client.t(),
+          vhost :: String.t(),
+          src :: String.t(),
+          dest :: String.t(),
+          props :: String.t()
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def get_exchange_exchange_binding(client, vhost, src, dest, props),
+    do: Tesla.get(client, "#{@api_namespace}/#{vhost}/e/#{src}/e/#{dest}/#{props}")
+
+  @doc """
+  Delete a binding between two exchanges.
+  """
+  @spec delete_exchange_exchange_binding(
+          client :: Tesla.Client.t(),
+          vhost :: String.t(),
+          src :: String.t(),
+          dest :: String.t(),
+          props :: String.t()
+        ) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def delete_exchange_exchange_binding(client, vhost, src, dest, props),
+    do: Tesla.delete(client, "#{@api_namespace}/#{vhost}/e/#{src}/e/#{dest}/#{props}")
 end

@@ -134,6 +134,10 @@ defmodule ExRabbitMQAdmin.ExchangeTest do
              Client.client()
              |> Exchange.delete_exchange("my-vhost", "delete-me", if_unused: true)
 
+    assert {:ok, %Tesla.Env{status: 204}} =
+             Client.client()
+             |> Exchange.delete_exchange("my-vhost", "delete-me", if_unused: false)
+
     assert_raise ArgumentError,
                  "unknown options [:invalid_opt], valid options are: [:if_unused]",
                  fn ->

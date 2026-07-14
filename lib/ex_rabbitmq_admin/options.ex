@@ -336,6 +336,67 @@ defmodule ExRabbitMQAdmin.Options do
     ]
   end
 
+  def put_topic_permission_definition do
+    [
+      exchange: [
+        doc: """
+        The exchange or exchange pattern the topic permission applies to.
+        """,
+        type: :string,
+        required: true
+      ],
+      write: [
+        doc: """
+        A regular expression for write permission on topics. Defaults to deny-all.
+        """,
+        type: :string,
+        required: true,
+        default: "^$"
+      ],
+      read: [
+        doc: """
+        A regular expression for read permission on topics. Defaults to deny-all.
+        """,
+        type: :string,
+        required: true,
+        default: "^$"
+      ]
+    ]
+  end
+
+  def put_policy_definition do
+    [
+      pattern: [
+        doc: """
+        A regular expression matching resource names to apply the policy to.
+        """,
+        type: :string,
+        required: true
+      ],
+      definition: [
+        doc: """
+        The policy definition as a map of policy keys and values.
+        """,
+        type: {:map, :string, :any},
+        required: true
+      ],
+      priority: [
+        doc: """
+        Policy priority. Higher value means higher priority.
+        """,
+        type: :non_neg_integer,
+        default: 0
+      ],
+      apply_to: [
+        doc: """
+        What type of resources the policy applies to.
+        """,
+        type: {:in, [:queues, :classic_queues, :quorum_queues, :exchanges, :all]},
+        default: :all
+      ]
+    ]
+  end
+
   def format_error(%ValidationError{keys_path: [], message: message}), do: message
 
   def format_error(%ValidationError{keys_path: keys_path, message: message}) do

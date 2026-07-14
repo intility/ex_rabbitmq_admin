@@ -70,7 +70,7 @@ defmodule ExRabbitMQAdmin.Vhost do
       {:ok, opts} ->
         client
         |> ExRabbitMQAdmin.add_query_middleware(opts)
-        |> Tesla.get("#{@api_namespace}/#{vhost}/connections")
+        |> Tesla.get("#{@api_namespace}/#{vhost}/channels")
     end
   end
 

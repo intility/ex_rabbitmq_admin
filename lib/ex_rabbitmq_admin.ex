@@ -47,8 +47,22 @@ defmodule ExRabbitMQAdmin do
   def extensions(client), do: Tesla.get(client, "/api/extensions")
 
   @doc """
+  Set the name identifying this RabbitMQ cluster.
+  """
+  @spec put_cluster_name(client :: Tesla.Client.t(), name :: String.t()) ::
+          {:ok, Tesla.Env.t()} | {:error, term()}
+  def put_cluster_name(client, name),
+    do: Tesla.put(client, "/api/cluster-name", %{"name" => name})
+
+  @doc """
   Get details of the currently authenticated user.
   """
   @spec whoami(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()} | {:error, term()}
   def whoami(client), do: Tesla.get(client, "/api/whoami")
+
+  @doc """
+  Asynchronously rebalance all queues in the cluster.
+  """
+  @spec rebalance_queues(client :: Tesla.Client.t()) :: {:ok, Tesla.Env.t()} | {:error, term()}
+  def rebalance_queues(client), do: Tesla.post(client, "/api/rebalance/queues", %{})
 end
