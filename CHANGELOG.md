@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.3.1](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.0...v0.3.1) (2026-08-11)
+
+
+### Build System
+
+* **deps:** bump actions/checkout from 7.0.0 to 7.0.1 ([#6](https://github.com/intility/ex_rabbitmq_admin/issues/6)) ([312984c](https://github.com/intility/ex_rabbitmq_admin/commit/312984cb27bba7023207786f9c2b0ab00e9c15d5))
+* **deps:** bump hackney from 4.5.2 to 4.7.2 ([#9](https://github.com/intility/ex_rabbitmq_admin/issues/9)) ([56d1e61](https://github.com/intility/ex_rabbitmq_admin/commit/56d1e61674c3be547aefff344a93b615433c7f26))
+* **deps:** bump tesla from 1.20.0 to 1.21.0 ([#8](https://github.com/intility/ex_rabbitmq_admin/issues/8)) ([99fb36a](https://github.com/intility/ex_rabbitmq_admin/commit/99fb36aad61db58e7696fa5ea27b440efee479ac))
+
 ## [0.3.0](https://github.com/intility/ex_rabbitmq_admin/compare/v0.2.0...v0.3.0) (2026-07-14)
 
 
