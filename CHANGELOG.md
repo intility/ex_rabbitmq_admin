@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.2](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.1...v0.3.2) (2026-09-08)
+
+
+### Build System
+
+* **deps-dev:** bump ex_doc from 0.40.3 to 0.40.4 ([#14](https://github.com/intility/ex_rabbitmq_admin/issues/14)) ([7d14619](https://github.com/intility/ex_rabbitmq_admin/commit/7d146190f9bd67a53409dabb0ba3ad38784620de))
+* **deps:** bump tesla from 1.21.0 to 1.21.3 ([#13](https://github.com/intility/ex_rabbitmq_admin/issues/13)) ([440396c](https://github.com/intility/ex_rabbitmq_admin/commit/440396c79c17b1fa8d40beee958598f80736dade))
+
 ## [0.3.1](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.0...v0.3.1) (2026-08-11)
 
 
