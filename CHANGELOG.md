@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.2...v0.3.3) (2026-09-15)
+
+
+### Build System
+
+* **deps-dev:** bump dialyxir from 1.4.7 to 1.4.8 ([#16](https://github.com/intility/ex_rabbitmq_admin/issues/16)) ([efee4cf](https://github.com/intility/ex_rabbitmq_admin/commit/efee4cf7f53b6fc0b878a930c6892a7fe665c789))
+
 ## [0.3.2](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.1...v0.3.2) (2026-09-08)
 
 
