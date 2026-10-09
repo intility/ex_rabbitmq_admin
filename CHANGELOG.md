@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.4](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.3...v0.3.4) (2026-10-09)
+
+
+### Build System
+
+* **deps:** bump hackney from 4.7.4 to 4.8.4 ([#19](https://github.com/intility/ex_rabbitmq_admin/issues/19)) ([b749e9a](https://github.com/intility/ex_rabbitmq_admin/commit/b749e9a35214828433ac063cf8cbce90d7c7406f))
+
 ## [0.3.3](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.2...v0.3.3) (2026-09-15)
 
 
