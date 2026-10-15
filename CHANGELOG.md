@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.5](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.4...v0.3.5) (2026-10-15)
+
+
+### Build System
+
+* **deps:** bump hackney from 4.8.4 to 4.8.5 ([#21](https://github.com/intility/ex_rabbitmq_admin/issues/21)) ([dfe89de](https://github.com/intility/ex_rabbitmq_admin/commit/dfe89de80afff4ba49395505a31e37264b9e0600))
+* **deps:** bump tesla from 1.21.3 to 1.22.0 ([#22](https://github.com/intility/ex_rabbitmq_admin/issues/22)) ([649cff9](https://github.com/intility/ex_rabbitmq_admin/commit/649cff9549b7707d9936259418bf1df9fe3bc063))
+
 ## [0.3.4](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.3...v0.3.4) (2026-10-09)
 
 
