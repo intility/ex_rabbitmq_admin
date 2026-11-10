@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.3.5](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.4...v0.3.5) (2026-11-10)
+
+
+### Build System
+
+* **deps:** bump hackney from 4.8.4 to 4.8.5 ([#21](https://github.com/intility/ex_rabbitmq_admin/issues/21)) ([dfe89de](https://github.com/intility/ex_rabbitmq_admin/commit/dfe89de80afff4ba49395505a31e37264b9e0600))
+* **deps:** bump hackney from 4.8.5 to 4.9.1 ([#25](https://github.com/intility/ex_rabbitmq_admin/issues/25)) ([2453d8e](https://github.com/intility/ex_rabbitmq_admin/commit/2453d8e12a0577562452f8a137989f985af5be67))
+* **deps:** bump nimble_options from 1.1.1 to 1.2.0 ([#27](https://github.com/intility/ex_rabbitmq_admin/issues/27)) ([faab9cc](https://github.com/intility/ex_rabbitmq_admin/commit/faab9ccedbef62a723fb096d8ab412e12199723a))
+* **deps:** bump tesla from 1.21.3 to 1.22.0 ([#22](https://github.com/intility/ex_rabbitmq_admin/issues/22)) ([649cff9](https://github.com/intility/ex_rabbitmq_admin/commit/649cff9549b7707d9936259418bf1df9fe3bc063))
+
+
+### CI
+
+* bump reusable-elixir to v3.4.0 ([#26](https://github.com/intility/ex_rabbitmq_admin/issues/26)) ([f10ca75](https://github.com/intility/ex_rabbitmq_admin/commit/f10ca75fa26f909418d94bb0e812235a33816b3b))
+
 ## [0.3.4](https://github.com/intility/ex_rabbitmq_admin/compare/v0.3.3...v0.3.4) (2026-10-09)
 
 
